@@ -1,0 +1,62 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+@media (min-width: 640px) {
+    .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.card {
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-color, #e2e8f0);
+    background-color: var(--bg-card, #ffffff);
+    padding: 1.25rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cardTitle {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted, #64748b);
+}
+
+.cardValue {
+    margin-top: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-main, #0f172a);
+}
+
+.cardValueCritical {
+    margin-top: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #dc2626;
+}
+
+/* Am Ende der Datei hinzufügen: */
+:global(.dark) .card {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+:global(.dark) .title {
+    color: var(--text-muted);
+}
+
+:global(.dark) .value {
+    color: var(--text-main);
+}

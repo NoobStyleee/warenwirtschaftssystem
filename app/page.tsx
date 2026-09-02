@@ -1,0 +1,123 @@
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import { Header } from '../components/layout/header/header';
+import { Sidebar } from '../components/layout/sidebar/sidebar';
+import { StatsCards } from '../components/inventory/stats-cards/stats-cards';
+import { InventoryTable } from '../components/inventory/inventory-table/inventory-table';
+import { CategoryView } from '../components/inventory/category-view/category-view';
+import { ReportsView } from '../components/reports/reports-view';
+import { ItemModal } from '../components/inventory/item-modal/item-modal';
+import { InventoryItem } from '../types/inventory';
+
+export default function Home() {
+  const [items, setItems] = useState<InventoryItem[]>([]);
+  const [activeTab, setActiveTab] = useState<'inventory' | 'categories' | 'reports'>('inventory');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
+
+  const fetchItems = async () => {
+    try {
+      const res = await fetch('/api/inventory');
+      const data = await res.json();
+      if (Array.isArray(data)) setItems(data);
+    } catch (err) {
+      console.error('Fehler beim Laden', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
+  const handleUpdateStock = async (id: string, newStock: number) => {
+    try {
+      await fetch('/api/inventory', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, stock: newStock }),
+      });
+      fetchItems();
+    } catch (err) {
+      console.error('Fehler beim Aktualisieren', err);
+    }
+  };
+
+  const handleDeleteItem = async (id: string) => {
+    if (!confirm('Artikel wirklich löschen?')) return;
+    try {
+      await fetch(`/api/inventory?id=${id}`, { method: 'DELETE' });
+      fetchItems();
+    } catch (err) {
+      console.error('Fehler beim Löschen', err);
+    }
+  };
+
+  const handleSaveItem = async (itemData: any) => {
+    try {
+      const isEditing = Boolean(itemData.id);
+      await fetch('/api/inventory', {
+        method: isEditing ? 'PUT' : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(itemData),
+      });
+      fetchItems();
+    } catch (err) {
+      console.error('Fehler beim Speichern', err);
+    }
+  };
+
+  return (
+    <div style={{ minHeight: '100vh', width: '100vw', display: 'flex', flexDirection: 'column', overflowX: 'hidden' }}>
+      <Header />
+      <div style={{ display: 'flex', flex: 1, width: '100%' }}>
+        <Sidebar activeTab={activeTab} setActiveTab={(tab) => setActiveTab(tab as any)} />
+        <main style={{ flex: 1, padding: '1.5rem', backgroundColor: 'var(--bg-app)', overflowX: 'auto' }}>
+          {activeTab === 'inventory' && (
+            <>
+              <StatsCards items={items} />
+              <InventoryTable
+                items={items}
+                onUpdateStock={handleUpdateStock}
+                onDeleteItem={handleDeleteItem}
+                onEditItem={(item) => {
+                  setSelectedItem(item);
+                  setIsModalOpen(true);
+                }}
+                onOpenAddModal={() => {
+                  setSelectedItem(null);
+                  setIsModalOpen(true);
+                }}
+              />
+            </>
+          )}
+
+          {activeTab === 'categories' && (
+            <CategoryView
+              items={items}
+              onUpdateStock={handleUpdateStock}
+              onDeleteItem={handleDeleteItem}
+              onEditItem={(item) => {
+                setSelectedItem(item);
+                setIsModalOpen(true);
+              }}
+              onOpenAddModal={() => {
+                setSelectedItem(null);
+                setIsModalOpen(true);
+              }}
+            />
+          )}
+
+          {activeTab === 'reports' && <ReportsView items={items} />}
+        </main>
+      </div>
+
+      <ItemModal
+        isOpen={isModalOpen}
+        initialData={selectedItem}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSaveItem}
+      />
+    </div>
+  );
+}

@@ -1,0 +1,64 @@
+/* [project]/components/inventory/stats-cards/stats-cards.module.css [app-client] (css) */
+.stats-cards-module__RbWYLa__grid {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  display: grid;
+}
+
+@media (min-width: 640px) {
+  .stats-cards-module__RbWYLa__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.stats-cards-module__RbWYLa__card {
+  border: 1px solid var(--border-color, #e2e8f0);
+  background-color: var(--bg-card, #fff);
+  border-radius: .75rem;
+  padding: 1.25rem;
+  box-shadow: 0 1px 2px #0000000d;
+}
+
+.stats-cards-module__RbWYLa__cardHeader {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+.stats-cards-module__RbWYLa__cardTitle {
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--text-muted, #64748b);
+  font-size: .75rem;
+  font-weight: 600;
+}
+
+.stats-cards-module__RbWYLa__cardValue {
+  color: var(--text-main, #0f172a);
+  margin-top: .5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.stats-cards-module__RbWYLa__cardValueCritical {
+  color: #dc2626;
+  margin-top: .5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.dark .stats-cards-module__RbWYLa__card {
+  background-color: var(--bg-card);
+  border-color: var(--border-color);
+}
+
+.dark .stats-cards-module__RbWYLa__title {
+  color: var(--text-muted);
+}
+
+.dark .stats-cards-module__RbWYLa__value {
+  color: var(--text-main);
+}
+
+/*# sourceMappingURL=components_inventory_stats-cards_stats-cards_module_css_1igg3k2._.single.css.map*/

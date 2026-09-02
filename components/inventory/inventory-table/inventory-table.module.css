@@ -1,0 +1,184 @@
+.container {
+    background-color: #ffffff;
+    border-radius: 0.75rem;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+/* Obere Leiste mit Suche und Buttons */
+.topBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+    gap: 1rem;
+}
+
+.searchGroup {
+    flex: 1;
+    max-width: 24rem;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 0.5rem 0.875rem;
+    font-size: 0.875rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.375rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.searchInput:focus {
+    border-color: #2563eb;
+}
+
+/* Tabellen-Styling */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.875rem;
+}
+
+.table th {
+    background-color: #f8fafc;
+    padding: 0.75rem 1rem;
+    color: #64748b;
+    font-weight: 600;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.table td {
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid #f1f5f9;
+    color: #334155;
+    vertical-align: middle;
+}
+
+.table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+/* FIX: Bestands-Steuerung mit fester Breite */
+.stockControl {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background-color: #f1f5f9;
+    padding: 0.25rem;
+    border-radius: 0.375rem;
+    border: 1px solid #e2e8f0;
+}
+
+.stockBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.25rem;
+    color: #334155;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.stockBtn:hover {
+    background-color: #e2e8f0;
+    border-color: #94a3b8;
+}
+
+/* Ziffern-Anzeige mit fixer Mindestbreite & Zentrierung */
+.stockValue {
+    display: inline-block;
+    min-width: 2.25rem;
+    text-align: center;
+    font-weight: 600;
+    color: #0f172a;
+}
+/* Input-Feld für die manuelle Bestandeingabe */
+.stockInput {
+    width: 2.75rem;
+    height: 1.75rem;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-weight: 600;
+    color: #0f172a;
+    font-size: 0.875rem;
+    outline: none;
+    border-radius: 0.25rem;
+}
+
+.stockInput:focus {
+    background-color: #ffffff;
+    box-shadow: 0 0 0 2px #2563eb;
+}
+
+/* Entfernt die nativen Pfeile bei HTML-Number-Inputs */
+.stockInput::-webkit-outer-spin-button,
+.stockInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.stockInput[type=number] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+/* Am Ende der Datei hinzufügen: */
+:global(.dark) .container {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+:global(.dark) .topBar {
+    border-color: var(--border-color);
+}
+
+:global(.dark) .searchInput {
+    background-color: var(--input-bg);
+    border-color: var(--border-color);
+    color: var(--text-main);
+}
+
+:global(.dark) .table th {
+    background-color: #0f172a;
+    color: var(--text-muted);
+    border-color: var(--border-color);
+}
+
+:global(.dark) .table td {
+    border-color: var(--border-color);
+    color: var(--text-main);
+}
+
+:global(.dark) .table tbody tr:hover {
+    background-color: var(--bg-hover);
+}
+
+:global(.dark) .stockControl {
+    background-color: #0f172a;
+    border-color: var(--border-color);
+}
+
+:global(.dark) .stockBtn {
+    background-color: #1e293b;
+    border-color: var(--border-color);
+    color: var(--text-main);
+}
+
+:global(.dark) .stockBtn:hover {
+    background-color: #334155;
+}
+
+:global(.dark) .stockInput {
+    color: var(--text-main);
+}

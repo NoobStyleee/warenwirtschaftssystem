@@ -1,0 +1,179 @@
+/* [project]/components/inventory/category-view/category-view.module.css [app-client] (css) */
+.category-view-module__vvzSpa__container {
+  flex-direction: column;
+  gap: 1.5rem;
+  display: flex;
+}
+
+.category-view-module__vvzSpa__topBar {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  display: flex;
+}
+
+.category-view-module__vvzSpa__titleArea {
+  align-items: center;
+  gap: 1rem;
+  display: flex;
+}
+
+.category-view-module__vvzSpa__backBtn {
+  color: #334155;
+  cursor: pointer;
+  background-color: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: .375rem;
+  align-items: center;
+  gap: .5rem;
+  padding: .5rem .875rem;
+  font-size: .875rem;
+  font-weight: 500;
+  transition: background-color .15s, border-color .15s;
+  display: inline-flex;
+}
+
+.category-view-module__vvzSpa__backBtn:hover {
+  background-color: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.category-view-module__vvzSpa__title {
+  color: #0f172a;
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.category-view-module__vvzSpa__searchGroup {
+  width: 100%;
+  max-width: 22rem;
+}
+
+.category-view-module__vvzSpa__searchInput {
+  background-color: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: .375rem;
+  outline: none;
+  width: 100%;
+  padding: .5rem .875rem;
+  font-size: .875rem;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.category-view-module__vvzSpa__searchInput:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px #2563eb26;
+}
+
+.category-view-module__vvzSpa__grid {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+  display: grid;
+}
+
+.category-view-module__vvzSpa__card {
+  cursor: pointer;
+  background-color: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: .75rem;
+  flex-direction: column;
+  gap: .75rem;
+  padding: 1.25rem;
+  transition: transform .15s, box-shadow .15s, border-color .15s;
+  display: flex;
+  box-shadow: 0 1px 3px #0000000d;
+}
+
+.category-view-module__vvzSpa__card:hover {
+  border-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px #0000001a;
+}
+
+.category-view-module__vvzSpa__cardHeader {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+.category-view-module__vvzSpa__categoryName {
+  color: #0f172a;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.category-view-module__vvzSpa__iconWrapper {
+  color: #2563eb;
+  background-color: #eff6ff;
+  border-radius: .5rem;
+  justify-content: center;
+  align-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+}
+
+.category-view-module__vvzSpa__stats {
+  color: #64748b;
+  border-top: 1px solid #f1f5f9;
+  justify-content: space-between;
+  padding-top: .75rem;
+  font-size: .875rem;
+  display: flex;
+}
+
+.category-view-module__vvzSpa__statValue {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.category-view-module__vvzSpa__noResults {
+  text-align: center;
+  color: #64748b;
+  background-color: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: .75rem;
+  padding: 2.5rem;
+}
+
+.dark .category-view-module__vvzSpa__title {
+  color: var(--text-main);
+}
+
+.dark .category-view-module__vvzSpa__card {
+  background-color: var(--bg-card);
+  border-color: var(--border-color);
+}
+
+.dark .category-view-module__vvzSpa__categoryName {
+  color: var(--text-main);
+}
+
+.dark .category-view-module__vvzSpa__stats {
+  border-color: var(--border-color);
+  color: var(--text-muted);
+}
+
+.dark .category-view-module__vvzSpa__statValue {
+  color: var(--text-main);
+}
+
+.dark .category-view-module__vvzSpa__searchInput {
+  background-color: var(--input-bg);
+  border-color: var(--border-color);
+  color: var(--text-main);
+}
+
+.dark .category-view-module__vvzSpa__backBtn {
+  background-color: var(--bg-card);
+  border-color: var(--border-color);
+  color: var(--text-main);
+}
+
+.dark .category-view-module__vvzSpa__backBtn:hover {
+  background-color: var(--bg-hover);
+}
+
+/*# sourceMappingURL=components_inventory_category-view_category-view_module_css_1igg3k2._.single.css.map*/

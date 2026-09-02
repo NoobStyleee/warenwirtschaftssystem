@@ -1,0 +1,179 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Obere Leiste mit Titel, Suche und ggf. Zurück-Button */
+.topBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.titleArea {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.backBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.875rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #334155;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.backBtn:hover {
+    background-color: #f1f5f9;
+    border-color: #94a3b8;
+}
+
+.title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 0;
+}
+
+.searchGroup {
+    width: 100%;
+    max-width: 22rem;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 0.5rem 0.875rem;
+    font-size: 0.875rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.375rem;
+    background-color: #ffffff;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.searchInput:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+/* Kacheln-Grid */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+}
+
+.card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-color: #2563eb;
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.categoryName {
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: #0f172a;
+}
+
+.iconWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: #eff6ff;
+    border-radius: 0.5rem;
+    color: #2563eb;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 0.75rem;
+    font-size: 0.875rem;
+    color: #64748b;
+}
+
+.statValue {
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.noResults {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    padding: 2.5rem;
+    text-align: center;
+    color: #64748b;
+}
+
+/* Am Ende der Datei hinzufügen: */
+:global(.dark) .title {
+    color: var(--text-main);
+}
+
+:global(.dark) .card {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+:global(.dark) .categoryName {
+    color: var(--text-main);
+}
+
+:global(.dark) .stats {
+    border-color: var(--border-color);
+    color: var(--text-muted);
+}
+
+:global(.dark) .statValue {
+    color: var(--text-main);
+}
+
+:global(.dark) .searchInput {
+    background-color: var(--input-bg);
+    border-color: var(--border-color);
+    color: var(--text-main);
+}
+
+:global(.dark) .backBtn {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+    color: var(--text-main);
+}
+
+:global(.dark) .backBtn:hover {
+    background-color: var(--bg-hover);
+}

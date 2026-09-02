@@ -1,0 +1,77 @@
+/* [project]/components/inventory/item-modal/item-modal.module.css [app-client] (css) */
+.item-modal-module__OvHnEq__overlay {
+  z-index: 50;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  background-color: #00000080;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: fixed;
+  inset: 0;
+}
+
+.item-modal-module__OvHnEq__modal {
+  border: 1px solid var(--border-color, #e2e8f0);
+  background-color: var(--bg-card, #fff);
+  border-radius: .75rem;
+  width: 100%;
+  max-width: 500px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 15px -3px #0000001a;
+}
+
+.item-modal-module__OvHnEq__header {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  display: flex;
+}
+
+.item-modal-module__OvHnEq__title {
+  color: var(--text-main, #0f172a);
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.item-modal-module__OvHnEq__form {
+  flex-direction: column;
+  gap: 1rem;
+  display: flex;
+}
+
+.item-modal-module__OvHnEq__grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  display: grid;
+}
+
+.item-modal-module__OvHnEq__field {
+  flex-direction: column;
+  gap: .375rem;
+  display: flex;
+}
+
+.item-modal-module__OvHnEq__label {
+  color: var(--text-main, #334155);
+  font-size: .875rem;
+  font-weight: 500;
+}
+
+.item-modal-module__OvHnEq__input {
+  border: 1px solid var(--border-color, #cbd5e1);
+  background-color: var(--bg-card, #fff);
+  color: var(--text-main, #0f172a);
+  border-radius: .5rem;
+  padding: .5rem .75rem;
+  font-size: .875rem;
+}
+
+.item-modal-module__OvHnEq__actions {
+  justify-content: flex-end;
+  gap: .75rem;
+  margin-top: 1.5rem;
+  display: flex;
+}
+
+/*# sourceMappingURL=components_inventory_item-modal_item-modal_module_css_1igg3k2._.single.css.map*/
