@@ -180,6 +180,13 @@
 
 .dark .inventory-table-module__iMzADW__stockInput {
   color: var(--text-main);
+  background-color: #0000;
+}
+
+.dark .inventory-table-module__iMzADW__stockInput:focus {
+  background-color: var(--bg-card, #1e293b);
+  color: var(--text-main);
+  box-shadow: 0 0 0 2px #2563eb;
 }
 
 /*# sourceMappingURL=components_inventory_inventory-table_inventory-table_module_css_1igg3k2._.single.css.map*/

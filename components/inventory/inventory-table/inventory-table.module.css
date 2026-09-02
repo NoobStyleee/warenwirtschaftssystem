@@ -180,5 +180,12 @@
 }
 
 :global(.dark) .stockInput {
+    background-color: transparent;
     color: var(--text-main);
+}
+
+:global(.dark) .stockInput:focus {
+    background-color: var(--bg-card, #1e293b);
+    color: var(--text-main);
+    box-shadow: 0 0 0 2px #2563eb;
 }
