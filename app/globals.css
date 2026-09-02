@@ -1,7 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+@import "tailwindcss";
 /* Box-Sizing für alle Elemente vereinheitlichen */
 *,
 *::before,
