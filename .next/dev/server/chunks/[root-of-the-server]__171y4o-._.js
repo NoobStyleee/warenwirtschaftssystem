@@ -85,6 +85,7 @@ async function GET() {
         });
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(items);
     } catch (error) {
+        console.error('GET /api/inventory Error:', error);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             error: 'Fehler beim Laden der Artikel'
         }, {
@@ -95,21 +96,29 @@ async function GET() {
 async function POST(request) {
     try {
         const body = await request.json();
+        if (!body.sku || !body.name) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: 'SKU und Name sind erforderlich'
+            }, {
+                status: 400
+            });
+        }
         const newItem = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].item.create({
             data: {
-                sku: body.sku,
-                name: body.name,
-                category: body.category,
-                stock: Number(body.stock),
-                minStock: Number(body.minStock),
-                price: parseFloat(body.price),
-                location: body.location || null
+                sku: String(body.sku),
+                name: String(body.name),
+                category: String(body.category || 'Allgemein'),
+                stock: Number(body.stock) || 0,
+                minStock: Number(body.minStock) || 0,
+                price: parseFloat(body.price) || 0,
+                location: body.location ? String(body.location) : null
             }
         });
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(newItem, {
             status: 201
         });
     } catch (error) {
+        console.error('POST /api/inventory Error:', error);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             error: 'Fehler beim Erstellen des Artikels'
         }, {
@@ -121,14 +130,31 @@ async function PUT(request) {
     try {
         const body = await request.json();
         const { id, ...data } = body;
+        if (!id) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: 'ID erforderlich'
+            }, {
+                status: 400
+            });
+        }
+        // Build sanitised update object to prevent Prisma type mismatches
+        const updateData = {};
+        if (data.sku !== undefined) updateData.sku = String(data.sku);
+        if (data.name !== undefined) updateData.name = String(data.name);
+        if (data.category !== undefined) updateData.category = String(data.category);
+        if (data.stock !== undefined) updateData.stock = Number(data.stock);
+        if (data.minStock !== undefined) updateData.minStock = Number(data.minStock);
+        if (data.price !== undefined) updateData.price = parseFloat(data.price);
+        if (data.location !== undefined) updateData.location = data.location ? String(data.location) : null;
         const updatedItem = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].item.update({
             where: {
-                id
+                id: String(id)
             },
-            data
+            data: updateData
         });
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(updatedItem);
     } catch (error) {
+        console.error('PUT /api/inventory Error:', error);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             error: 'Fehler beim Aktualisieren des Artikels'
         }, {
@@ -149,13 +175,14 @@ async function DELETE(request) {
         }
         await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].item.delete({
             where: {
-                id
+                id: String(id)
             }
         });
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: true
         });
     } catch (error) {
+        console.error('DELETE /api/inventory Error:', error);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             error: 'Fehler beim Löschen des Artikels'
         }, {
