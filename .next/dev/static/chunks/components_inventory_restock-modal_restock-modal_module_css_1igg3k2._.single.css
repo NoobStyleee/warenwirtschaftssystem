@@ -1,0 +1,149 @@
+/* [project]/components/inventory/restock-modal/restock-modal.module.css [app-client] (css) */
+.restock-modal-module__4Qb7Iq__backdrop {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  z-index: 99999;
+  background-color: #000000bf;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  padding: 1rem;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.restock-modal-module__4Qb7Iq__modal {
+  background-color: var(--bg-card, #1e293b);
+  border: 1px solid var(--border-color, #334155);
+  width: 100%;
+  max-width: 42rem;
+  max-height: 80vh;
+  color: var(--text-main, #f8fafc);
+  border-radius: 1rem;
+  flex-direction: column;
+  display: flex;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px #00000080;
+}
+
+.restock-modal-module__4Qb7Iq__header {
+  border-bottom: 1px solid var(--border-color, #334155);
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  display: flex;
+}
+
+.restock-modal-module__4Qb7Iq__title {
+  color: #ef4444;
+  align-items: center;
+  gap: .5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  display: flex;
+}
+
+.restock-modal-module__4Qb7Iq__closeButton {
+  color: var(--text-muted, #94a3b8);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: .25rem .5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  transition: color .2s;
+}
+
+.restock-modal-module__4Qb7Iq__closeButton:hover {
+  color: var(--text-main, #fff);
+}
+
+.restock-modal-module__4Qb7Iq__body {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.restock-modal-module__4Qb7Iq__emptyText {
+  text-align: center;
+  color: var(--text-muted, #94a3b8);
+  padding: 2rem 0;
+}
+
+.restock-modal-module__4Qb7Iq__table {
+  text-align: left;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.restock-modal-module__4Qb7Iq__tableHeader {
+  border-bottom: 1px solid var(--border-color, #334155);
+  color: var(--text-muted, #94a3b8);
+  text-transform: uppercase;
+  font-size: .75rem;
+}
+
+.restock-modal-module__4Qb7Iq__tableHeader th {
+  padding-bottom: .75rem;
+}
+
+.restock-modal-module__4Qb7Iq__tableRow {
+  border-bottom: 1px solid var(--border-color, #334155);
+  transition: background-color .2s;
+}
+
+.restock-modal-module__4Qb7Iq__tableRow:hover {
+  background-color: var(--bg-hover, #ffffff08);
+}
+
+.restock-modal-module__4Qb7Iq__tableRow td {
+  padding: .75rem 0;
+}
+
+.restock-modal-module__4Qb7Iq__itemName {
+  font-weight: 600;
+}
+
+.restock-modal-module__4Qb7Iq__itemSku {
+  color: var(--text-muted, #94a3b8);
+  font-size: .75rem;
+}
+
+.restock-modal-module__4Qb7Iq__stockCritical {
+  color: #ef4444;
+  text-align: center;
+  font-weight: 700;
+}
+
+.restock-modal-module__4Qb7Iq__stockNormal {
+  text-align: center;
+  color: var(--text-muted, #94a3b8);
+}
+
+.restock-modal-module__4Qb7Iq__footer {
+  border-top: 1px solid var(--border-color, #334155);
+  justify-content: flex-end;
+  padding: 1rem 1.5rem;
+  display: flex;
+}
+
+.restock-modal-module__4Qb7Iq__actionButton {
+  color: #fff;
+  cursor: pointer;
+  background-color: #2563eb;
+  border: none;
+  border-radius: .5rem;
+  padding: .5rem 1rem;
+  font-size: .875rem;
+  font-weight: 500;
+  transition: background-color .2s;
+}
+
+.restock-modal-module__4Qb7Iq__actionButton:hover {
+  background-color: #1d4ed8;
+}
+
+/*# sourceMappingURL=components_inventory_restock-modal_restock-modal_module_css_1igg3k2._.single.css.map*/

@@ -4,10 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { Header } from '../components/layout/header/header';
 import { Sidebar } from '../components/layout/sidebar/sidebar';
 import { StatsCards } from '../components/inventory/stats-cards/stats-cards';
-import { InventoryTable } from '../components/inventory/inventory-table/inventory-table';
+import { InventoryTable } from '../components/inventory/inventory-table/inventory-table'; // Passe den Pfad an falls nötig
 import { CategoryView } from '../components/inventory/category-view/category-view';
 import { ReportsView } from '../components/reports/reports-view';
 import { ItemModal } from '../components/inventory/item-modal/item-modal';
+import { RestockModal } from '../components/inventory/restock-modal/restock-modal';
 import { InventoryItem } from '../types/inventory';
 
 export default function Home() {
@@ -15,6 +16,9 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<'inventory' | 'categories' | 'reports'>('inventory');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
+  const [showRestockModal, setShowRestockModal] = useState(false);
+
+  const criticalItems = items.filter((item: any) => item.stock <= item.minStock);
 
   const fetchItems = async () => {
     try {
@@ -75,7 +79,10 @@ export default function Home() {
         <main style={{ flex: 1, padding: '1.5rem', backgroundColor: 'var(--bg-app)', overflowX: 'auto' }}>
           {activeTab === 'inventory' && (
             <>
-              <StatsCards items={items} />
+              <StatsCards 
+                items={items} 
+                onRestockClick={() => setShowRestockModal(true)} 
+              />
               <InventoryTable
                 items={items}
                 onUpdateStock={handleUpdateStock}
@@ -112,11 +119,19 @@ export default function Home() {
         </main>
       </div>
 
+      {/* Artikel Bearbeiten / Hinzufügen Modal */}
       <ItemModal
         isOpen={isModalOpen}
         initialData={selectedItem}
         onClose={() => setIsModalOpen(false)}
         onSave={handleSaveItem}
+      />
+
+      {/* Sauberes Restock Modal als eigenständige Komponente */}
+      <RestockModal 
+        isOpen={showRestockModal}
+        onClose={() => setShowRestockModal(false)}
+        criticalItems={criticalItems}
       />
     </div>
   );

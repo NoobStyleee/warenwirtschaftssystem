@@ -1,0 +1,149 @@
+/* components/inventory/restock-modal/restock-modal.module.css */
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    padding: 1rem;
+}
+
+.modal {
+    background-color: var(--bg-card, #1e293b);
+    border: 1px solid var(--border-color, #334155);
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 42rem;
+    /* max-w-2xl */
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    color: var(--text-main, #f8fafc);
+}
+
+.header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color, #334155);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #ef4444;
+    /* red-500 */
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    color: var(--text-muted, #94a3b8);
+    font-weight: 700;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    transition: color 0.2s;
+}
+
+.closeButton:hover {
+    color: var(--text-main, #ffffff);
+}
+
+.body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.emptyText {
+    text-align: center;
+    color: var(--text-muted, #94a3b8);
+    padding: 2rem 0;
+}
+
+.table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+.tableHeader {
+    border-bottom: 1px solid var(--border-color, #334155);
+    font-size: 0.75rem;
+    color: var(--text-muted, #94a3b8);
+    text-transform: uppercase;
+}
+
+.tableHeader th {
+    padding-bottom: 0.75rem;
+}
+
+.tableRow {
+    border-bottom: 1px solid var(--border-color, #334155);
+    transition: background-color 0.2s;
+}
+
+.tableRow:hover {
+    background-color: var(--bg-hover, rgba(255, 255, 255, 0.03));
+}
+
+.tableRow td {
+    padding: 0.75rem 0;
+}
+
+.itemName {
+    font-weight: 600;
+}
+
+.itemSku {
+    font-size: 0.75rem;
+    color: var(--text-muted, #94a3b8);
+}
+
+.stockCritical {
+    font-weight: 700;
+    color: #ef4444;
+    text-align: center;
+}
+
+.stockNormal {
+    text-align: center;
+    color: var(--text-muted, #94a3b8);
+}
+
+.footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border-color, #334155);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.actionButton {
+    padding: 0.5rem 1rem;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.actionButton:hover {
+    background-color: #1d4ed8;
+}
