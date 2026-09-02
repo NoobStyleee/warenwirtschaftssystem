@@ -9,6 +9,7 @@ export async function GET() {
     });
     return NextResponse.json(items);
   } catch (error) {
+    console.error('GET /api/inventory Error:', error);
     return NextResponse.json({ error: 'Fehler beim Laden der Artikel' }, { status: 500 });
   }
 }
@@ -17,35 +18,59 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+
+    if (!body.sku || !body.name) {
+      return NextResponse.json({ error: 'SKU und Name sind erforderlich' }, { status: 400 });
+    }
+
     const newItem = await db.item.create({
       data: {
-        sku: body.sku,
-        name: body.name,
-        category: body.category,
-        stock: Number(body.stock),
-        minStock: Number(body.minStock),
-        price: parseFloat(body.price),
-        location: body.location || null,
+        sku: String(body.sku),
+        name: String(body.name),
+        category: String(body.category || 'Allgemein'),
+        stock: Number(body.stock) || 0,
+        minStock: Number(body.minStock) || 0,
+        price: parseFloat(body.price) || 0,
+        location: body.location ? String(body.location) : null,
       },
     });
+
     return NextResponse.json(newItem, { status: 201 });
   } catch (error) {
+    console.error('POST /api/inventory Error:', error);
     return NextResponse.json({ error: 'Fehler beim Erstellen des Artikels' }, { status: 500 });
   }
 }
 
-// PUT: Artikel aktualisieren oder Bestand anpassen (+ / -)
+// PUT: Artikel aktualisieren
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
     const { id, ...data } = body;
 
+    if (!id) {
+      return NextResponse.json({ error: 'ID erforderlich' }, { status: 400 });
+    }
+
+    // Build sanitised update object to prevent Prisma type mismatches
+    const updateData: Record<string, any> = {};
+
+    if (data.sku !== undefined) updateData.sku = String(data.sku);
+    if (data.name !== undefined) updateData.name = String(data.name);
+    if (data.category !== undefined) updateData.category = String(data.category);
+    if (data.stock !== undefined) updateData.stock = Number(data.stock);
+    if (data.minStock !== undefined) updateData.minStock = Number(data.minStock);
+    if (data.price !== undefined) updateData.price = parseFloat(data.price);
+    if (data.location !== undefined) updateData.location = data.location ? String(data.location) : null;
+
     const updatedItem = await db.item.update({
-      where: { id },
-      data,
+      where: { id: String(id) },
+      data: updateData,
     });
+
     return NextResponse.json(updatedItem);
   } catch (error) {
+    console.error('PUT /api/inventory Error:', error);
     return NextResponse.json({ error: 'Fehler beim Aktualisieren des Artikels' }, { status: 500 });
   }
 }
@@ -60,9 +85,13 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'ID erforderlich' }, { status: 400 });
     }
 
-    await db.item.delete({ where: { id } });
+    await db.item.delete({
+      where: { id: String(id) },
+    });
+
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error('DELETE /api/inventory Error:', error);
     return NextResponse.json({ error: 'Fehler beim Löschen des Artikels' }, { status: 500 });
   }
 }

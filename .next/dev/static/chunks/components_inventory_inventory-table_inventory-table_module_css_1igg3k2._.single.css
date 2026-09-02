@@ -1,0 +1,185 @@
+/* [project]/components/inventory/inventory-table/inventory-table.module.css [app-client] (css) */
+.inventory-table-module__iMzADW__container {
+  background-color: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: .75rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px #0000000d;
+}
+
+.inventory-table-module__iMzADW__topBar {
+  border-bottom: 1px solid #f1f5f9;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  display: flex;
+}
+
+.inventory-table-module__iMzADW__searchGroup {
+  flex: 1;
+  max-width: 24rem;
+}
+
+.inventory-table-module__iMzADW__searchInput {
+  border: 1px solid #cbd5e1;
+  border-radius: .375rem;
+  outline: none;
+  width: 100%;
+  padding: .5rem .875rem;
+  font-size: .875rem;
+  transition: border-color .2s;
+}
+
+.inventory-table-module__iMzADW__searchInput:focus {
+  border-color: #2563eb;
+}
+
+.inventory-table-module__iMzADW__table {
+  border-collapse: collapse;
+  text-align: left;
+  width: 100%;
+  font-size: .875rem;
+}
+
+.inventory-table-module__iMzADW__table th {
+  color: #64748b;
+  background-color: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  padding: .75rem 1rem;
+  font-weight: 600;
+}
+
+.inventory-table-module__iMzADW__table td {
+  color: #334155;
+  vertical-align: middle;
+  border-bottom: 1px solid #f1f5f9;
+  padding: .875rem 1rem;
+}
+
+.inventory-table-module__iMzADW__table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+.inventory-table-module__iMzADW__stockControl {
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: .375rem;
+  align-items: center;
+  gap: .25rem;
+  padding: .25rem;
+  display: inline-flex;
+}
+
+.inventory-table-module__iMzADW__stockBtn {
+  color: #334155;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  background-color: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: .25rem;
+  justify-content: center;
+  align-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  font-weight: 600;
+  transition: background-color .15s, border-color .15s;
+  display: flex;
+}
+
+.inventory-table-module__iMzADW__stockBtn:hover {
+  background-color: #e2e8f0;
+  border-color: #94a3b8;
+}
+
+.inventory-table-module__iMzADW__stockValue {
+  text-align: center;
+  color: #0f172a;
+  min-width: 2.25rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.inventory-table-module__iMzADW__stockInput {
+  text-align: center;
+  color: #0f172a;
+  background: none;
+  border: none;
+  border-radius: .25rem;
+  outline: none;
+  width: 2.75rem;
+  height: 1.75rem;
+  font-size: .875rem;
+  font-weight: 600;
+}
+
+.inventory-table-module__iMzADW__stockInput:focus {
+  background-color: #fff;
+  box-shadow: 0 0 0 2px #2563eb;
+}
+
+.inventory-table-module__iMzADW__stockInput::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.inventory-table-module__iMzADW__stockInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.inventory-table-module__iMzADW__stockInput[type="number"] {
+  appearance: textfield;
+}
+
+.dark .inventory-table-module__iMzADW__container {
+  background-color: var(--bg-card);
+  border-color: var(--border-color);
+}
+
+.dark .inventory-table-module__iMzADW__topBar {
+  border-color: var(--border-color);
+}
+
+.dark .inventory-table-module__iMzADW__searchInput {
+  background-color: var(--input-bg);
+  border-color: var(--border-color);
+  color: var(--text-main);
+}
+
+.dark .inventory-table-module__iMzADW__table th {
+  color: var(--text-muted);
+  border-color: var(--border-color);
+  background-color: #0f172a;
+}
+
+.dark .inventory-table-module__iMzADW__table td {
+  border-color: var(--border-color);
+  color: var(--text-main);
+}
+
+.dark .inventory-table-module__iMzADW__table tbody tr:hover {
+  background-color: var(--bg-hover);
+}
+
+.dark .inventory-table-module__iMzADW__stockControl {
+  border-color: var(--border-color);
+  background-color: #0f172a;
+}
+
+.dark .inventory-table-module__iMzADW__stockBtn {
+  border-color: var(--border-color);
+  color: var(--text-main);
+  background-color: #1e293b;
+}
+
+.dark .inventory-table-module__iMzADW__stockBtn:hover {
+  background-color: #334155;
+}
+
+.dark .inventory-table-module__iMzADW__stockInput {
+  color: var(--text-main);
+}
+
+/*# sourceMappingURL=components_inventory_inventory-table_inventory-table_module_css_1igg3k2._.single.css.map*/
