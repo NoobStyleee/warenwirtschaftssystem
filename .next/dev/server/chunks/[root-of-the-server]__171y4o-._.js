@@ -80,7 +80,7 @@ async function GET() {
     try {
         const items = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].item.findMany({
             orderBy: {
-                updatedAt: 'desc'
+                name: 'asc'
             }
         });
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(items);
@@ -111,7 +111,8 @@ async function POST(request) {
                 stock: Number(body.stock) || 0,
                 minStock: Number(body.minStock) || 0,
                 price: parseFloat(body.price) || 0,
-                location: body.location ? String(body.location) : null
+                location: body.location ? String(body.location) : null,
+                text: body.text ? String(body.text) : null
             }
         });
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(newItem, {
@@ -137,7 +138,6 @@ async function PUT(request) {
                 status: 400
             });
         }
-        // Build sanitised update object to prevent Prisma type mismatches
         const updateData = {};
         if (data.sku !== undefined) updateData.sku = String(data.sku);
         if (data.name !== undefined) updateData.name = String(data.name);
@@ -146,6 +146,10 @@ async function PUT(request) {
         if (data.minStock !== undefined) updateData.minStock = Number(data.minStock);
         if (data.price !== undefined) updateData.price = parseFloat(data.price);
         if (data.location !== undefined) updateData.location = data.location ? String(data.location) : null;
+        // Hier wird das Text-Feld jetzt absolut sicher für Updates verarbeitet
+        if (data.text !== undefined) {
+            updateData.text = data.text ? String(data.text) : null;
+        }
         const updatedItem = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].item.update({
             where: {
                 id: String(id)

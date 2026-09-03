@@ -1228,6 +1228,7 @@ __turbopack_context__.v({
   "label": "item-modal-module__OvHnEq__label",
   "modal": "item-modal-module__OvHnEq__modal",
   "overlay": "item-modal-module__OvHnEq__overlay",
+  "textarea": "item-modal-module__OvHnEq__textarea",
   "title": "item-modal-module__OvHnEq__title",
 });
 }),
@@ -1259,10 +1260,13 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
         stock: 0,
         minStock: 5,
         price: 0,
-        location: ''
+        location: '',
+        text: ''
     });
-    // Speichert das Element, auf dem das Mousedown-Event gestartet wurde
+    // Refs
     const mouseDownTargetRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const textareaRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    // Formular-Daten bei Öffnen oder initialData-Änderung füllen
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "ItemModal.useEffect": ()=>{
             if (initialData) {
@@ -1273,7 +1277,8 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
                     stock: initialData.stock || 0,
                     minStock: initialData.minStock || 5,
                     price: initialData.price || 0,
-                    location: initialData.location || ''
+                    location: initialData.location || '',
+                    text: initialData.text || ''
                 });
             } else {
                 setFormData({
@@ -1283,7 +1288,8 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
                     stock: 0,
                     minStock: 5,
                     price: 0,
-                    location: ''
+                    location: '',
+                    text: ''
                 });
             }
         }
@@ -1291,6 +1297,7 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
         initialData,
         isOpen
     ]);
+    // Schließen bei ESC-Taste
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "ItemModal.useEffect": ()=>{
             const handleKeyDown = {
@@ -1313,6 +1320,23 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
         isOpen,
         onClose
     ]);
+    // Funktion zum automatischen Anpassen der Texthöhe
+    const adjustHeight = (element)=>{
+        if (element) {
+            element.style.height = 'auto';
+            element.style.height = `${element.scrollHeight}px`;
+        }
+    };
+    // Höhe initial / bei Textänderung anpassen
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "ItemModal.useEffect": ()=>{
+            adjustHeight(textareaRef.current);
+        }
+    }["ItemModal.useEffect"], [
+        formData.text,
+        isOpen
+    ]);
+    // WICHTIG: Alle Hooks müssen VOR diesem Return stehen!
     if (!isOpen) return null;
     const handleSubmit = (e)=>{
         e.preventDefault();
@@ -1322,11 +1346,10 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
         } : formData);
         onClose();
     };
-    // Erfasse genau, wo der Klick gestartet wurde
+    // Overlay-Klick-Logik (Mousedown & Mouseup)
     const handleMouseDown = (e)=>{
         mouseDownTargetRef.current = e.target;
     };
-    // Schließe das Modal nur, wenn Mousedown UND Mouseup auf dem Overlay stattfanden
     const handleMouseUp = (e)=>{
         if (mouseDownTargetRef.current === e.currentTarget && e.target === e.currentTarget) {
             onClose();
@@ -1349,7 +1372,7 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
                             children: initialData ? 'Artikel bearbeiten' : 'Neuen Artikel anlegen'
                         }, void 0, false, {
                             fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                            lineNumber: 102,
+                            lineNumber: 121,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1364,18 +1387,18 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
                                 className: "h-5 w-5 text-slate-400"
                             }, void 0, false, {
                                 fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                lineNumber: 110,
+                                lineNumber: 129,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                            lineNumber: 105,
+                            lineNumber: 124,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                    lineNumber: 101,
+                    lineNumber: 120,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -1393,7 +1416,7 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
                                             children: "SKU / Artikel-Nr."
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                            lineNumber: 117,
+                                            lineNumber: 136,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1407,13 +1430,13 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
                                                 })
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                            lineNumber: 118,
+                                            lineNumber: 137,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                    lineNumber: 116,
+                                    lineNumber: 135,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1424,7 +1447,7 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
                                             children: "Kategorie"
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                            lineNumber: 128,
+                                            lineNumber: 147,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1438,19 +1461,19 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
                                                 })
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                            lineNumber: 129,
+                                            lineNumber: 148,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                    lineNumber: 127,
+                                    lineNumber: 146,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                            lineNumber: 115,
+                            lineNumber: 134,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1461,7 +1484,7 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
                                     children: "Artikelbezeichnung"
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                    lineNumber: 140,
+                                    lineNumber: 159,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1475,13 +1498,13 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
                                         })
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                    lineNumber: 141,
+                                    lineNumber: 160,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                            lineNumber: 139,
+                            lineNumber: 158,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1495,7 +1518,7 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
                                             children: "Bestand"
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                            lineNumber: 152,
+                                            lineNumber: 171,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1510,13 +1533,13 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
                                                 })
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                            lineNumber: 153,
+                                            lineNumber: 172,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                    lineNumber: 151,
+                                    lineNumber: 170,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1527,7 +1550,7 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
                                             children: "Mindestbestand"
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                            lineNumber: 164,
+                                            lineNumber: 183,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1542,19 +1565,19 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
                                                 })
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                            lineNumber: 165,
+                                            lineNumber: 184,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                    lineNumber: 163,
+                                    lineNumber: 182,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                            lineNumber: 150,
+                            lineNumber: 169,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1568,7 +1591,7 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
                                             children: "Einzelpreis (€)"
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                            lineNumber: 178,
+                                            lineNumber: 197,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1584,13 +1607,13 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
                                                 })
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                            lineNumber: 179,
+                                            lineNumber: 198,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                    lineNumber: 177,
+                                    lineNumber: 196,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1601,7 +1624,7 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
                                             children: "Lagerort"
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                            lineNumber: 191,
+                                            lineNumber: 210,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1614,19 +1637,54 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
                                                 })
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                            lineNumber: 192,
+                                            lineNumber: 211,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                    lineNumber: 190,
+                                    lineNumber: 209,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                            lineNumber: 176,
+                            lineNumber: 195,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$item$2d$modal$2f$item$2d$modal$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].field,
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                    className: __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$item$2d$modal$2f$item$2d$modal$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].label,
+                                    children: "Zusätzlicher Text / Notizen"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
+                                    lineNumber: 222,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
+                                    ref: textareaRef,
+                                    className: __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$item$2d$modal$2f$item$2d$modal$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].textarea,
+                                    rows: 1,
+                                    value: formData.text,
+                                    onChange: (e)=>{
+                                        setFormData({
+                                            ...formData,
+                                            text: e.target.value
+                                        });
+                                        adjustHeight(e.target);
+                                    },
+                                    placeholder: "Hier kannst du beliebigen Text eingeben..."
+                                }, void 0, false, {
+                                    fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
+                                    lineNumber: 223,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
+                            lineNumber: 221,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1639,7 +1697,7 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
                                     children: "Abbrechen"
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                    lineNumber: 202,
+                                    lineNumber: 237,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1648,34 +1706,34 @@ function ItemModal({ isOpen, onClose, initialData, onSave }) {
                                     children: "Speichern"
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                                    lineNumber: 205,
+                                    lineNumber: 240,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                            lineNumber: 201,
+                            lineNumber: 236,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-                    lineNumber: 114,
+                    lineNumber: 133,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-            lineNumber: 100,
+            lineNumber: 119,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/components/inventory/item-modal/item-modal.tsx",
-        lineNumber: 95,
+        lineNumber: 114,
         columnNumber: 5
     }, this);
 }
-_s(ItemModal, "sDMY1hPVJScm3OLctnueKUOoyww=");
+_s(ItemModal, "bWlmUtYaiF2Achkh5Tqe/l1LCgc=");
 _c = ItemModal;
 var _c;
 __turbopack_context__.k.register(_c, "ItemModal");

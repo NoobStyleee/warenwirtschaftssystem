@@ -63,6 +63,7 @@
     background-color: var(--bg-card, #ffffff);
     color: var(--text-main, #0f172a);
     font-size: 0.875rem;
+    resize: none;
 }
 
 .actions {
@@ -70,4 +71,28 @@
     justify-content: flex-end;
     gap: 0.75rem;
     margin-top: 1.5rem;
+}
+.textarea.input,
+.textarea {
+    resize: none;
+    /* Verhindert das manuelle Verschieben/Größenverändern */
+}
+
+.textarea {
+    width: 100%;
+    min-height: 2.5rem;
+    max-height: 20rem;
+    /* Verhindert, dass es endlos wächst */
+    padding: 0.5rem 0.875rem;
+    font-size: 0.875rem;
+    border: 1px solid var(--border-color, #cbd5e1);
+    border-radius: 0.375rem;
+    background-color: var(--input-bg, transparent);
+    color: var(--text-main, inherit);
+    outline: none;
+    /* Entfernt den Anfasser */
+    /* Versteckt Scrollbalken */
+    word-break: break-word;
+    overflow-wrap: break-word;
+    transition: border-color 0.2s;
 }

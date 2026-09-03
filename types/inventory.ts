@@ -1,5 +1,5 @@
 export interface InventoryItem {
-  id: string;
+  id?: string;
   sku: string;          // z. B. "MOT-001" oder "GEW-M8"
   name: string;         // z. B. "Gewindestange M8"
   category: string;     // z. B. "Befestigung", "Motoren", "Bänder", "Röllchen"
@@ -7,6 +7,7 @@ export interface InventoryItem {
   minStock: number;     // Mindestbestand (Lagerwarnung wenn stock <= minStock)
   price: number;        // Einzelpreis in Euro
   location?: string;    // Optional: z. B. "Regal A2"
+  text?: string;        // Optional: Zusätzliche Beschreibung oder Text
   createdAt: Date;
   updatedAt: Date;
 }

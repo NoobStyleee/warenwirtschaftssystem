@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 import { db } from '../../../lib/db';
 
-// GET: Alle Artikel abrufen
+// GET: Alle Artikel abrufen (jetzt alphabetisch nach Name sortiert, damit nichts mehr springt)
 export async function GET() {
   try {
     const items = await db.item.findMany({
-      orderBy: { updatedAt: 'desc' },
+      orderBy: { name: 'asc' }, // Alphabetische Sortierung (A-Z)
     });
     return NextResponse.json(items);
   } catch (error) {
@@ -32,6 +32,7 @@ export async function POST(request: Request) {
         minStock: Number(body.minStock) || 0,
         price: parseFloat(body.price) || 0,
         location: body.location ? String(body.location) : null,
+        text: body.text ? String(body.text) : null,
       },
     });
 
@@ -42,7 +43,7 @@ export async function POST(request: Request) {
   }
 }
 
-// PUT: Artikel aktualisieren
+// PUT: Artikel aktualisieren (Inklusive Text-Feld)
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
@@ -52,7 +53,6 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: 'ID erforderlich' }, { status: 400 });
     }
 
-    // Build sanitised update object to prevent Prisma type mismatches
     const updateData: Record<string, any> = {};
 
     if (data.sku !== undefined) updateData.sku = String(data.sku);
@@ -61,7 +61,12 @@ export async function PUT(request: Request) {
     if (data.stock !== undefined) updateData.stock = Number(data.stock);
     if (data.minStock !== undefined) updateData.minStock = Number(data.minStock);
     if (data.price !== undefined) updateData.price = parseFloat(data.price);
-    if (data.location !== undefined) updateData.location = data.location ? String(data.location) : null;
+    if (data.location !== undefined) updateData.location = data.location ? String(data.location) : null;  
+    
+    // Hier wird das Text-Feld jetzt absolut sicher für Updates verarbeitet
+    if (data.text !== undefined) {
+      updateData.text = data.text ? String(data.text) : null;
+    }
 
     const updatedItem = await db.item.update({
       where: { id: String(id) },

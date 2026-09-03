@@ -22,11 +22,14 @@ export function ItemModal({ isOpen, onClose, initialData, onSave }: ItemModalPro
     minStock: 5,
     price: 0,
     location: '',
+    text: '',
   });
 
-  // Speichert das Element, auf dem das Mousedown-Event gestartet wurde
+  // Refs
   const mouseDownTargetRef = useRef<EventTarget | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  // Formular-Daten bei Öffnen oder initialData-Änderung füllen
   useEffect(() => {
     if (initialData) {
       setFormData({
@@ -37,6 +40,7 @@ export function ItemModal({ isOpen, onClose, initialData, onSave }: ItemModalPro
         minStock: initialData.minStock || 5,
         price: initialData.price || 0,
         location: initialData.location || '',
+        text: initialData.text || '',
       });
     } else {
       setFormData({
@@ -47,10 +51,12 @@ export function ItemModal({ isOpen, onClose, initialData, onSave }: ItemModalPro
         minStock: 5,
         price: 0,
         location: '',
+        text: '',
       });
     }
   }, [initialData, isOpen]);
 
+  // Schließen bei ESC-Taste
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -67,6 +73,20 @@ export function ItemModal({ isOpen, onClose, initialData, onSave }: ItemModalPro
     };
   }, [isOpen, onClose]);
 
+  // Funktion zum automatischen Anpassen der Texthöhe
+  const adjustHeight = (element: HTMLTextAreaElement | null) => {
+    if (element) {
+      element.style.height = 'auto';
+      element.style.height = `${element.scrollHeight}px`;
+    }
+  };
+
+  // Höhe initial / bei Textänderung anpassen
+  useEffect(() => {
+    adjustHeight(textareaRef.current);
+  }, [formData.text, isOpen]);
+
+  // WICHTIG: Alle Hooks müssen VOR diesem Return stehen!
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -75,12 +95,11 @@ export function ItemModal({ isOpen, onClose, initialData, onSave }: ItemModalPro
     onClose();
   };
 
-  // Erfasse genau, wo der Klick gestartet wurde
+  // Overlay-Klick-Logik (Mousedown & Mouseup)
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     mouseDownTargetRef.current = e.target;
   };
 
-  // Schließe das Modal nur, wenn Mousedown UND Mouseup auf dem Overlay stattfanden
   const handleMouseUp = (e: React.MouseEvent<HTMLDivElement>) => {
     if (
       mouseDownTargetRef.current === e.currentTarget &&
@@ -196,6 +215,22 @@ export function ItemModal({ isOpen, onClose, initialData, onSave }: ItemModalPro
                 onChange={(e) => setFormData({ ...formData, location: e.target.value })}
               />
             </div>
+          </div>
+
+          {/* Zusätzliches Textfeld für Notizen */}
+          <div className={styles.field}>
+            <label className={styles.label}>Zusätzlicher Text / Notizen</label>
+            <textarea
+              ref={textareaRef}
+              className={styles.textarea}
+              rows={1}
+              value={formData.text}
+              onChange={(e) => {
+                setFormData({ ...formData, text: e.target.value });
+                adjustHeight(e.target);
+              }}
+              placeholder="Hier kannst du beliebigen Text eingeben..."
+            />
           </div>
 
           <div className={styles.actions}>
