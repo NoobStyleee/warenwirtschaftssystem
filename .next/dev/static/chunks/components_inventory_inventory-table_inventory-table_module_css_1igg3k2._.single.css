@@ -133,6 +133,92 @@
   appearance: textfield;
 }
 
+.inventory-table-module__iMzADW__skuCell {
+  font-weight: 600;
+}
+
+.inventory-table-module__iMzADW__itemNameButton {
+  color: #2563eb;
+  cursor: pointer;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.inventory-table-module__iMzADW__actionCell {
+  gap: .5rem;
+  display: flex;
+}
+
+.inventory-table-module__iMzADW__actionEditBtn {
+  cursor: pointer;
+  color: #475569;
+  background: none;
+  border: none;
+  align-items: center;
+  padding: 0;
+  display: flex;
+}
+
+.inventory-table-module__iMzADW__actionDeleteBtn {
+  cursor: pointer;
+  color: #ef4444;
+  background: none;
+  border: none;
+  align-items: center;
+  padding: 0;
+  display: flex;
+}
+
+.inventory-table-module__iMzADW__emptyRow {
+  text-align: center;
+  color: #94a3b8;
+  padding: 2rem;
+}
+
+.inventory-table-module__iMzADW__paginationContainer {
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+}
+
+.inventory-table-module__iMzADW__paginationBtn {
+  cursor: pointer;
+  color: #f8fafc;
+  background: #1e293bb3;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  align-items: center;
+  gap: .35rem;
+  padding: .5rem 1rem;
+  font-size: .875rem;
+  font-weight: 500;
+  transition: all .2s;
+  display: flex;
+}
+
+.inventory-table-module__iMzADW__paginationBtn:hover:not(.inventory-table-module__iMzADW__disabled) {
+  background: #334155e6;
+  border-color: #475569;
+}
+
+.inventory-table-module__iMzADW__paginationBtn.inventory-table-module__iMzADW__disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.inventory-table-module__iMzADW__paginationInfo {
+  color: #94a3b8;
+  font-size: .875rem;
+  font-weight: 500;
+}
+
 .dark .inventory-table-module__iMzADW__container {
   background-color: var(--bg-card);
   border-color: var(--border-color);

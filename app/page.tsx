@@ -86,22 +86,22 @@ export default function Home() {
         body: JSON.stringify(itemData),
       });
       fetchItems();
-    }  catch (err) {
+    } catch (err) {
       console.error('Fehler beim Speichern', err);
     }
   };
 
   return (
-    <div style={{ minHeight: '100vh', width: '100vw', display: 'flex', flexDirection: 'column', overflowX: 'hidden' }}>
+    <div style={{ height: '100vh', width: '100vw', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       <Header />
-      <div style={{ display: 'flex', flex: 1, width: '100%' }}>
+      <div style={{ display: 'flex', flex: 1, width: '100%', overflow: 'hidden' }}>
         <Sidebar activeTab={activeTab} setActiveTab={(tab) => setActiveTab(tab as any)} />
-        <main style={{ flex: 1, padding: '1.5rem', backgroundColor: 'var(--bg-app)', overflowX: 'auto' }}>
+        <main style={{ flex: 1, padding: '1.5rem', backgroundColor: 'var(--bg-app)', overflowY: 'auto', overflowX: 'hidden' }}>
           {activeTab === 'inventory' && (
             <>
-              <StatsCards 
-                items={items} 
-                onRestockClick={() => setShowRestockModal(true)} 
+              <StatsCards
+                items={items}
+                onRestockClick={() => setShowRestockModal(true)}
               />
               <InventoryTable
                 items={items}
@@ -150,7 +150,7 @@ export default function Home() {
       />
 
       {/* Sauberes Restock Modal als eigenständige Komponente */}
-      <RestockModal 
+      <RestockModal
         isOpen={showRestockModal}
         onClose={() => setShowRestockModal(false)}
         criticalItems={criticalItems}

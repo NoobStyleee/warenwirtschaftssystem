@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Plus, Trash2, Pencil } from 'lucide-react';
+import { Plus, Trash2, Pencil, ChevronLeft, ChevronRight } from 'lucide-react';
 import { InventoryItem } from '../../../types/inventory';
 import { Button } from '../../ui/button/button';
 import { formatCurrency } from '../../../lib/utils';
@@ -16,6 +16,8 @@ interface InventoryTableProps {
   onOpenAddModal: () => void;
 }
 
+const ITEMS_PER_PAGE = 10;
+
 export function InventoryTable({
   items,
   onUpdateStock,
@@ -24,6 +26,7 @@ export function InventoryTable({
   onOpenAddModal,
 }: InventoryTableProps) {
   const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
   const { showToast } = useToast();
 
   // Artikel anhand von Name, SKU, Lagerort oder Kategorie filtern
@@ -36,6 +39,16 @@ export function InventoryTable({
 
     return nameMatch || skuMatch || locationMatch || categoryMatch;
   });
+
+  // Pagination Berechnungen
+  const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE) || 1;
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const currentItems = filteredItems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1); // Bei Suche immer auf Seite 1 zurücksetzen
+  };
 
   const handleStockChange = (id: string, newStock: number, itemName: string) => {
     onUpdateStock(id, newStock);
@@ -60,7 +73,7 @@ export function InventoryTable({
             placeholder="Name, SKU, Lagerort oder Kategorie suchen..."
             className={styles.searchInput}
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={handleSearchChange}
           />
         </div>
         <Button variant="primary" onClick={handleOpenAdd}>
@@ -82,24 +95,17 @@ export function InventoryTable({
           </tr>
         </thead>
         <tbody>
-          {filteredItems.length > 0 ? (
-            filteredItems.map((item) => (
+          {currentItems.length > 0 ? (
+            currentItems.map((item) => (
               <tr key={item.id}>
-                <td style={{ fontWeight: 600 }}>{item.sku}</td>
+                <td className={styles.skuCell}>{item.sku}</td>
                 <td>
                   <button
                     onClick={() => {
                       onEditItem(item);
                       showToast(`Bearbeite Artikel: ${item.name}`, 'info');
                     }}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      color: '#2563eb',
-                      textDecoration: 'underline',
-                      cursor: 'pointer',
-                      fontWeight: 500,
-                    }}
+                    className={styles.itemNameButton}
                     title="Klicken zum Bearbeiten"
                   >
                     {item.name}
@@ -147,20 +153,20 @@ export function InventoryTable({
                 <td>{formatCurrency(item.price)}</td>
                 <td>{item.location || '-'}</td>
                 <td>
-                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <div className={styles.actionCell}>
                     <button
                       onClick={() => {
                         onEditItem(item);
                         showToast(`Bearbeite Artikel: ${item.name}`, 'info');
                       }}
-                      style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#475569' }}
+                      className={styles.actionEditBtn}
                       title="Bearbeiten"
                     >
                       <Pencil className="h-4 w-4" />
                     </button>
                     <button
                       onClick={() => handleDelete(item.id, item.name)}
-                      style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ef4444' }}
+                      className={styles.actionDeleteBtn}
                       title="Löschen"
                     >
                       <Trash2 className="h-4 w-4" />
@@ -171,13 +177,36 @@ export function InventoryTable({
             ))
           ) : (
             <tr>
-              <td colSpan={8} style={{ textAlign: 'center', padding: '2rem', color: '#94a3b8' }}>
+              <td colSpan={8} className={styles.emptyRow}>
                 Keine Artikel gefunden.
               </td>
             </tr>
           )}
         </tbody>
       </table>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className={styles.paginationContainer}>
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+            className={`${styles.paginationBtn} ${currentPage === 1 ? styles.disabled : ''}`}
+          >
+            <ChevronLeft className="h-4 w-4" /> Zurück
+          </button>
+          <span className={styles.paginationInfo}>
+            Seite {currentPage} von {totalPages}
+          </span>
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+            className={`${styles.paginationBtn} ${currentPage === totalPages ? styles.disabled : ''}`}
+          >
+            Weiter <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

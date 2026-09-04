@@ -107,11 +107,11 @@ function Home() {
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         style: {
-            minHeight: '100vh',
+            height: '100vh',
             width: '100vw',
             display: 'flex',
             flexDirection: 'column',
-            overflowX: 'hidden'
+            overflow: 'hidden'
         },
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$layout$2f$header$2f$header$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Header"], {}, void 0, false, {
@@ -123,7 +123,8 @@ function Home() {
                 style: {
                     display: 'flex',
                     flex: 1,
-                    width: '100%'
+                    width: '100%',
+                    overflow: 'hidden'
                 },
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$layout$2f$sidebar$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Sidebar"], {
@@ -139,7 +140,8 @@ function Home() {
                             flex: 1,
                             padding: '1.5rem',
                             backgroundColor: 'var(--bg-app)',
-                            overflowX: 'auto'
+                            overflowY: 'auto',
+                            overflowX: 'hidden'
                         },
                         children: [
                             activeTab === 'inventory' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -1113,9 +1115,19 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 "[project]/components/inventory/inventory-table/inventory-table.module.css [app-client] (css module)", ((__turbopack_context__) => {
 
 __turbopack_context__.v({
+  "actionCell": "inventory-table-module__iMzADW__actionCell",
+  "actionDeleteBtn": "inventory-table-module__iMzADW__actionDeleteBtn",
+  "actionEditBtn": "inventory-table-module__iMzADW__actionEditBtn",
   "container": "inventory-table-module__iMzADW__container",
+  "disabled": "inventory-table-module__iMzADW__disabled",
+  "emptyRow": "inventory-table-module__iMzADW__emptyRow",
+  "itemNameButton": "inventory-table-module__iMzADW__itemNameButton",
+  "paginationBtn": "inventory-table-module__iMzADW__paginationBtn",
+  "paginationContainer": "inventory-table-module__iMzADW__paginationContainer",
+  "paginationInfo": "inventory-table-module__iMzADW__paginationInfo",
   "searchGroup": "inventory-table-module__iMzADW__searchGroup",
   "searchInput": "inventory-table-module__iMzADW__searchInput",
+  "skuCell": "inventory-table-module__iMzADW__skuCell",
   "stockBtn": "inventory-table-module__iMzADW__stockBtn",
   "stockControl": "inventory-table-module__iMzADW__stockControl",
   "stockInput": "inventory-table-module__iMzADW__stockInput",
@@ -1136,6 +1148,8 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/plus.mjs [app-client] (ecmascript) <export default as Plus>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trash$2d$2$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Trash2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/trash-2.mjs [app-client] (ecmascript) <export default as Trash2>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$pencil$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Pencil$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/pencil.mjs [app-client] (ecmascript) <export default as Pencil>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$left$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronLeft$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/chevron-left.mjs [app-client] (ecmascript) <export default as ChevronLeft>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$right$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronRight$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/chevron-right.mjs [app-client] (ecmascript) <export default as ChevronRight>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/ui/button/button.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/utils.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$toast$2d$context$2f$toast$2d$context$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/ui/toast-context/toast-context.tsx [app-client] (ecmascript)");
@@ -1149,9 +1163,11 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
+const ITEMS_PER_PAGE = 10;
 function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAddModal }) {
     _s();
     const [searchTerm, setSearchTerm] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
+    const [currentPage, setCurrentPage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(1);
     const { showToast } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$toast$2d$context$2f$toast$2d$context$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"])();
     // Artikel anhand von Name, SKU, Lagerort oder Kategorie filtern
     const filteredItems = items.filter((item)=>{
@@ -1162,6 +1178,14 @@ function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpen
         const categoryMatch = item.category?.toLowerCase().includes(term);
         return nameMatch || skuMatch || locationMatch || categoryMatch;
     });
+    // Pagination Berechnungen
+    const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE) || 1;
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const currentItems = filteredItems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+    const handleSearchChange = (e)=>{
+        setSearchTerm(e.target.value);
+        setCurrentPage(1); // Bei Suche immer auf Seite 1 zurücksetzen
+    };
     const handleStockChange = (id, newStock, itemName)=>{
         onUpdateStock(id, newStock);
         showToast(`Bestand für "${itemName}" auf ${newStock} Stk. aktualisiert.`, 'success');
@@ -1186,15 +1210,15 @@ function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpen
                             placeholder: "Name, SKU, Lagerort oder Kategorie suchen...",
                             className: __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].searchInput,
                             value: searchTerm,
-                            onChange: (e)=>setSearchTerm(e.target.value)
+                            onChange: handleSearchChange
                         }, void 0, false, {
                             fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                            lineNumber: 58,
+                            lineNumber: 71,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                        lineNumber: 57,
+                        lineNumber: 70,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1205,20 +1229,20 @@ function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpen
                                 className: "h-4 w-4 mr-2"
                             }, void 0, false, {
                                 fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                lineNumber: 67,
+                                lineNumber: 80,
                                 columnNumber: 11
                             }, this),
                             " Artikel Hinzufügen"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                        lineNumber: 66,
+                        lineNumber: 79,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                lineNumber: 56,
+                lineNumber: 69,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("table", {
@@ -1231,80 +1255,78 @@ function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpen
                                     children: "SKU / Artikel-Nr."
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                    lineNumber: 74,
+                                    lineNumber: 87,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                     children: "Name"
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                    lineNumber: 75,
+                                    lineNumber: 88,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                     children: "Kategorie"
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                    lineNumber: 76,
+                                    lineNumber: 89,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                     children: "Bestand"
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                    lineNumber: 77,
+                                    lineNumber: 90,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                     children: "Mindestbestand"
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                    lineNumber: 78,
+                                    lineNumber: 91,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                     children: "Preis (€)"
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                    lineNumber: 79,
+                                    lineNumber: 92,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                     children: "Lagerort"
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                    lineNumber: 80,
+                                    lineNumber: 93,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                     children: "Aktionen"
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                    lineNumber: 81,
+                                    lineNumber: 94,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                            lineNumber: 73,
+                            lineNumber: 86,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                        lineNumber: 72,
+                        lineNumber: 85,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
-                        children: filteredItems.length > 0 ? filteredItems.map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                        children: currentItems.length > 0 ? currentItems.map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                        style: {
-                                            fontWeight: 600
-                                        },
+                                        className: __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].skuCell,
                                         children: item.sku
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                        lineNumber: 88,
+                                        lineNumber: 101,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1313,31 +1335,24 @@ function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpen
                                                 onEditItem(item);
                                                 showToast(`Bearbeite Artikel: ${item.name}`, 'info');
                                             },
-                                            style: {
-                                                background: 'none',
-                                                border: 'none',
-                                                color: '#2563eb',
-                                                textDecoration: 'underline',
-                                                cursor: 'pointer',
-                                                fontWeight: 500
-                                            },
+                                            className: __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].itemNameButton,
                                             title: "Klicken zum Bearbeiten",
                                             children: item.name
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                            lineNumber: 90,
+                                            lineNumber: 103,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                        lineNumber: 89,
+                                        lineNumber: 102,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                         children: item.category
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                        lineNumber: 108,
+                                        lineNumber: 114,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1350,7 +1365,7 @@ function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpen
                                                     children: "-"
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                                    lineNumber: 111,
+                                                    lineNumber: 117,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1375,7 +1390,7 @@ function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpen
                                                     }
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                                    lineNumber: 117,
+                                                    lineNumber: 123,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1384,147 +1399,190 @@ function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpen
                                                     children: "+"
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                                    lineNumber: 138,
+                                                    lineNumber: 144,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                            lineNumber: 110,
+                                            lineNumber: 116,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                        lineNumber: 109,
+                                        lineNumber: 115,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                         children: item.minStock
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                        lineNumber: 146,
+                                        lineNumber: 152,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                         children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatCurrency"])(item.price)
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                        lineNumber: 147,
+                                        lineNumber: 153,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                         children: item.location || '-'
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                        lineNumber: 148,
+                                        lineNumber: 154,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            style: {
-                                                display: 'flex',
-                                                gap: '0.5rem'
-                                            },
+                                            className: __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].actionCell,
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                     onClick: ()=>{
                                                         onEditItem(item);
                                                         showToast(`Bearbeite Artikel: ${item.name}`, 'info');
                                                     },
-                                                    style: {
-                                                        background: 'none',
-                                                        border: 'none',
-                                                        cursor: 'pointer',
-                                                        color: '#475569'
-                                                    },
+                                                    className: __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].actionEditBtn,
                                                     title: "Bearbeiten",
                                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$pencil$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Pencil$3e$__["Pencil"], {
                                                         className: "h-4 w-4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                                        lineNumber: 159,
+                                                        lineNumber: 165,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                                    lineNumber: 151,
+                                                    lineNumber: 157,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                     onClick: ()=>handleDelete(item.id, item.name),
-                                                    style: {
-                                                        background: 'none',
-                                                        border: 'none',
-                                                        cursor: 'pointer',
-                                                        color: '#ef4444'
-                                                    },
+                                                    className: __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].actionDeleteBtn,
                                                     title: "Löschen",
                                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trash$2d$2$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Trash2$3e$__["Trash2"], {
                                                         className: "h-4 w-4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                                        lineNumber: 166,
+                                                        lineNumber: 172,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                                    lineNumber: 161,
+                                                    lineNumber: 167,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                            lineNumber: 150,
+                                            lineNumber: 156,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                        lineNumber: 149,
+                                        lineNumber: 155,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, item.id, true, {
                                 fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                lineNumber: 87,
+                                lineNumber: 100,
                                 columnNumber: 15
                             }, this)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                 colSpan: 8,
-                                style: {
-                                    textAlign: 'center',
-                                    padding: '2rem',
-                                    color: '#94a3b8'
-                                },
+                                className: __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].emptyRow,
                                 children: "Keine Artikel gefunden."
                             }, void 0, false, {
                                 fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                lineNumber: 174,
+                                lineNumber: 180,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                            lineNumber: 173,
+                            lineNumber: 179,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                        lineNumber: 84,
+                        lineNumber: 97,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                lineNumber: 71,
+                lineNumber: 84,
                 columnNumber: 7
+            }, this),
+            totalPages > 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].paginationContainer,
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        disabled: currentPage === 1,
+                        onClick: ()=>setCurrentPage((p)=>Math.max(p - 1, 1)),
+                        className: `${__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].paginationBtn} ${currentPage === 1 ? __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].disabled : ''}`,
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$left$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronLeft$3e$__["ChevronLeft"], {
+                                className: "h-4 w-4"
+                            }, void 0, false, {
+                                fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
+                                lineNumber: 196,
+                                columnNumber: 13
+                            }, this),
+                            " Zurück"
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
+                        lineNumber: 191,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        className: __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].paginationInfo,
+                        children: [
+                            "Seite ",
+                            currentPage,
+                            " von ",
+                            totalPages
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
+                        lineNumber: 198,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        disabled: currentPage === totalPages,
+                        onClick: ()=>setCurrentPage((p)=>Math.min(p + 1, totalPages)),
+                        className: `${__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].paginationBtn} ${currentPage === totalPages ? __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].disabled : ''}`,
+                        children: [
+                            "Weiter ",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$right$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronRight$3e$__["ChevronRight"], {
+                                className: "h-4 w-4"
+                            }, void 0, false, {
+                                fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
+                                lineNumber: 206,
+                                columnNumber: 20
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
+                        lineNumber: 201,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
+                lineNumber: 190,
+                columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-        lineNumber: 55,
+        lineNumber: 68,
         columnNumber: 5
     }, this);
 }
-_s(InventoryTable, "ue7dCoVSGDnWe4MVeNQU2ilCq8c=", false, function() {
+_s(InventoryTable, "TC2mZ/YUaB0oZlx4T+njMHmSr20=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$toast$2d$context$2f$toast$2d$context$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"]
     ];
