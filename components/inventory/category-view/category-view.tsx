@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Boxes, ArrowLeft, Plus, Pencil, Trash2, Truck } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Boxes, ArrowLeft, Plus, Pencil, Trash2, Truck, ChevronLeft, ChevronRight } from 'lucide-react';
 import { InventoryItem } from '../../../types/inventory';
 import { formatCurrency } from '../../../lib/utils';
 import { Button } from '../../ui/button/button';
@@ -29,6 +29,12 @@ export function CategoryView({
   const [supplierFilter, setSupplierFilter] = useState('');
   const [itemSearchQuery, setItemSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState<'categories' | 'suppliers'>('categories');
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Setzt die Seitenzahl bei Filter- oder Kategoriewechsel zurück
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, selectedSupplier, itemSearchQuery, categorySearchQuery, supplierFilter]);
 
   // 1. Kategorien aggregieren
   const categoriesMap = items.reduce((acc, item) => {
@@ -91,6 +97,12 @@ export function CategoryView({
   const activeItems = selectedCategory ? categoryItems : supplierItems;
   const activeTitle = selectedCategory ? `Kategorie: ${selectedCategory}` : `Lieferant: ${selectedSupplier}`;
 
+  // Pagination-Berechnung für die Detailansicht
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(activeItems.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentItems = activeItems.slice(startIndex, startIndex + itemsPerPage);
+
   // --- ANSICHT 1: ARTIKEL EINER KATEGORIE ODER EINES LIEFERANTEN ANZEIGEN ---
   if (selectedCategory || selectedSupplier) {
     return (
@@ -142,8 +154,8 @@ export function CategoryView({
               </tr>
             </thead>
             <tbody>
-              {activeItems.length > 0 ? (
-                activeItems.map((item) => (
+              {currentItems.length > 0 ? (
+                currentItems.map((item) => (
                   <tr key={item.id}>
                     <td style={{ fontWeight: 600 }}>{item.sku}</td>
                     <td>
@@ -220,11 +232,34 @@ export function CategoryView({
             </tbody>
           </table>
         </div>
+
+        {/* Pagination Leiste */}
+        {activeItems.length > 0 && (
+          <div className={tableStyles.paginationContainer}>
+            <button
+              className={`${tableStyles.paginationBtn} ${currentPage === 1 ? tableStyles.disabled : ''}`}
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              <ChevronLeft className="h-4 w-4" /> Zurück
+            </button>
+            <span className={tableStyles.paginationInfo}>
+              Seite {currentPage} von {totalPages || 1}
+            </span>
+            <button
+              className={`${tableStyles.paginationBtn} ${currentPage >= totalPages ? tableStyles.disabled : ''}`}
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              disabled={currentPage >= totalPages}
+            >
+              Weiter <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
+        )}
       </div>
     );
   }
 
-  // --- ANSICHT 2: HAUPT-ÜBERSICHT (MIT UMSCHALTUNG ZWISCHEN KATEGORIEN & LIEFERANTEN) ---
+  // --- ANSICHT 2: HAUPT-ÜBERSICHT (KATEGORIEN & LIEFERANTEN KACHELN) ---
   return (
     <div className={styles.container}>
       <div className={styles.topBar} style={{ flexDirection: 'column', alignItems: 'stretch', gap: '1rem' }}>
@@ -233,7 +268,6 @@ export function CategoryView({
             {viewMode === 'categories' ? 'Kategorien-Übersicht' : 'Lieferanten-Übersicht'}
           </h2>
           
-          {/* Tabs zum Umschalten */}
           <div style={{ display: 'flex', background: 'rgba(255,255,255,0.05)', padding: '4px', borderRadius: '8px', gap: '4px' }}>
             <button
               onClick={() => setViewMode('categories')}
@@ -268,7 +302,6 @@ export function CategoryView({
           </div>
         </div>
 
-        {/* Suchfeld basierend auf Ansicht */}
         <div>
           {viewMode === 'categories' ? (
             <input
@@ -292,7 +325,6 @@ export function CategoryView({
         </div>
       </div>
 
-      {/* Kachel-Ansicht */}
       {viewMode === 'categories' ? (
         filteredCategories.length > 0 ? (
           <div className={styles.grid}>

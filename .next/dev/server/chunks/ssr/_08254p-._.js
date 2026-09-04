@@ -273,6 +273,8 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$pencil$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Pencil$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/pencil.mjs [app-ssr] (ecmascript) <export default as Pencil>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trash$2d$2$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Trash2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/trash-2.mjs [app-ssr] (ecmascript) <export default as Trash2>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$truck$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Truck$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/truck.mjs [app-ssr] (ecmascript) <export default as Truck>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$left$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronLeft$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/chevron-left.mjs [app-ssr] (ecmascript) <export default as ChevronLeft>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$right$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronRight$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/chevron-right.mjs [app-ssr] (ecmascript) <export default as ChevronRight>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/utils.ts [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/ui/button/button.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__ = __turbopack_context__.i("[project]/components/inventory/inventory-table/inventory-table.module.css [app-ssr] (css module)");
@@ -292,6 +294,17 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
     const [supplierFilter, setSupplierFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
     const [itemSearchQuery, setItemSearchQuery] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
     const [viewMode, setViewMode] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('categories');
+    const [currentPage, setCurrentPage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(1);
+    // Setzt die Seitenzahl bei Filter- oder Kategoriewechsel zurück
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        setCurrentPage(1);
+    }, [
+        selectedCategory,
+        selectedSupplier,
+        itemSearchQuery,
+        categorySearchQuery,
+        supplierFilter
+    ]);
     // 1. Kategorien aggregieren
     const categoriesMap = items.reduce((acc, item)=>{
         const cat = item.category || 'Unkategorisiert';
@@ -336,6 +349,11 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
     }) : [];
     const activeItems = selectedCategory ? categoryItems : supplierItems;
     const activeTitle = selectedCategory ? `Kategorie: ${selectedCategory}` : `Lieferant: ${selectedSupplier}`;
+    // Pagination-Berechnung für die Detailansicht
+    const itemsPerPage = 10;
+    const totalPages = Math.ceil(activeItems.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const currentItems = activeItems.slice(startIndex, startIndex + itemsPerPage);
     // --- ANSICHT 1: ARTIKEL EINER KATEGORIE ODER EINES LIEFERANTEN ANZEIGEN ---
     if (selectedCategory || selectedSupplier) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -359,14 +377,14 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                             className: "h-4 w-4"
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                            lineNumber: 108,
+                                            lineNumber: 120,
                                             columnNumber: 15
                                         }, this),
                                         " Zurück zur Übersicht"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                    lineNumber: 100,
+                                    lineNumber: 112,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -374,13 +392,13 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                     children: activeTitle
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                    lineNumber: 110,
+                                    lineNumber: 122,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                            lineNumber: 99,
+                            lineNumber: 111,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -400,12 +418,12 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                         onChange: (e)=>setItemSearchQuery(e.target.value)
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                        lineNumber: 115,
+                                        lineNumber: 127,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                    lineNumber: 114,
+                                    lineNumber: 126,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -416,26 +434,26 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                             className: "h-4 w-4 mr-2"
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                            lineNumber: 124,
+                                            lineNumber: 136,
                                             columnNumber: 15
                                         }, this),
                                         " Artikel Hinzufügen"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                    lineNumber: 123,
+                                    lineNumber: 135,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                            lineNumber: 113,
+                            lineNumber: 125,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                    lineNumber: 98,
+                    lineNumber: 110,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -450,78 +468,78 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                             children: "SKU / Artikel-Nr."
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                            lineNumber: 133,
+                                            lineNumber: 145,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                             children: "Name"
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                            lineNumber: 134,
+                                            lineNumber: 146,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                             children: "Kategorie"
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                            lineNumber: 135,
+                                            lineNumber: 147,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                             children: "Lieferant"
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                            lineNumber: 136,
+                                            lineNumber: 148,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                             children: "Bestand"
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                            lineNumber: 137,
+                                            lineNumber: 149,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                             children: "Mindestbestand"
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                            lineNumber: 138,
+                                            lineNumber: 150,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                             children: "Preis (€)"
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                            lineNumber: 139,
+                                            lineNumber: 151,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                             children: "Lagerort"
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                            lineNumber: 140,
+                                            lineNumber: 152,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                             children: "Aktionen"
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                            lineNumber: 141,
+                                            lineNumber: 153,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                    lineNumber: 132,
+                                    lineNumber: 144,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                lineNumber: 131,
+                                lineNumber: 143,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
-                                children: activeItems.length > 0 ? activeItems.map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                                children: currentItems.length > 0 ? currentItems.map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                                 style: {
@@ -530,7 +548,7 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                                 children: item.sku
                                             }, void 0, false, {
                                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                lineNumber: 148,
+                                                lineNumber: 160,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -547,26 +565,26 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                                     children: item.name
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                    lineNumber: 150,
+                                                    lineNumber: 162,
                                                     columnNumber: 23
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                lineNumber: 149,
+                                                lineNumber: 161,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                                 children: item.category
                                             }, void 0, false, {
                                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                lineNumber: 164,
+                                                lineNumber: 176,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                                 children: item.supplier || '-'
                                             }, void 0, false, {
                                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                lineNumber: 165,
+                                                lineNumber: 177,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -579,7 +597,7 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                                             children: "-"
                                                         }, void 0, false, {
                                                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                            lineNumber: 168,
+                                                            lineNumber: 180,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -593,7 +611,7 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                                             }
                                                         }, void 0, false, {
                                                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                            lineNumber: 174,
+                                                            lineNumber: 186,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -602,39 +620,39 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                                             children: "+"
                                                         }, void 0, false, {
                                                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                            lineNumber: 184,
+                                                            lineNumber: 196,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                    lineNumber: 167,
+                                                    lineNumber: 179,
                                                     columnNumber: 23
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                lineNumber: 166,
+                                                lineNumber: 178,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                                 children: item.minStock
                                             }, void 0, false, {
                                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                lineNumber: 192,
+                                                lineNumber: 204,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                                 children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(item.price)
                                             }, void 0, false, {
                                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                lineNumber: 193,
+                                                lineNumber: 205,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                                 children: item.location || '-'
                                             }, void 0, false, {
                                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                lineNumber: 194,
+                                                lineNumber: 206,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -656,12 +674,12 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                                                 className: "h-4 w-4"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                                lineNumber: 201,
+                                                                lineNumber: 213,
                                                                 columnNumber: 27
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                            lineNumber: 197,
+                                                            lineNumber: 209,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -676,29 +694,29 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                                                 className: "h-4 w-4"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                                lineNumber: 207,
+                                                                lineNumber: 219,
                                                                 columnNumber: 27
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                            lineNumber: 203,
+                                                            lineNumber: 215,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                    lineNumber: 196,
+                                                    lineNumber: 208,
                                                     columnNumber: 23
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                lineNumber: 195,
+                                                lineNumber: 207,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, item.id, true, {
                                         fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                        lineNumber: 147,
+                                        lineNumber: 159,
                                         columnNumber: 19
                                     }, this)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -711,38 +729,98 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                         children: "Keine Artikel gefunden."
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                        lineNumber: 215,
+                                        lineNumber: 227,
                                         columnNumber: 19
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                    lineNumber: 214,
+                                    lineNumber: 226,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                lineNumber: 144,
+                                lineNumber: 156,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                        lineNumber: 130,
+                        lineNumber: 142,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                    lineNumber: 129,
+                    lineNumber: 141,
                     columnNumber: 9
+                }, this),
+                activeItems.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].paginationContainer,
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                            className: `${__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].paginationBtn} ${currentPage === 1 ? __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].disabled : ''}`,
+                            onClick: ()=>setCurrentPage((prev)=>Math.max(prev - 1, 1)),
+                            disabled: currentPage === 1,
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$left$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronLeft$3e$__["ChevronLeft"], {
+                                    className: "h-4 w-4"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/inventory/category-view/category-view.tsx",
+                                    lineNumber: 244,
+                                    columnNumber: 15
+                                }, this),
+                                " Zurück"
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/components/inventory/category-view/category-view.tsx",
+                            lineNumber: 239,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                            className: __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].paginationInfo,
+                            children: [
+                                "Seite ",
+                                currentPage,
+                                " von ",
+                                totalPages || 1
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/components/inventory/category-view/category-view.tsx",
+                            lineNumber: 246,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                            className: `${__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].paginationBtn} ${currentPage >= totalPages ? __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].disabled : ''}`,
+                            onClick: ()=>setCurrentPage((prev)=>Math.min(prev + 1, totalPages)),
+                            disabled: currentPage >= totalPages,
+                            children: [
+                                "Weiter ",
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$right$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronRight$3e$__["ChevronRight"], {
+                                    className: "h-4 w-4"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/inventory/category-view/category-view.tsx",
+                                    lineNumber: 254,
+                                    columnNumber: 22
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/components/inventory/category-view/category-view.tsx",
+                            lineNumber: 249,
+                            columnNumber: 13
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/components/inventory/category-view/category-view.tsx",
+                    lineNumber: 238,
+                    columnNumber: 11
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-            lineNumber: 97,
+            lineNumber: 109,
             columnNumber: 7
         }, this);
     }
-    // --- ANSICHT 2: HAUPT-ÜBERSICHT (MIT UMSCHALTUNG ZWISCHEN KATEGORIEN & LIEFERANTEN) ---
+    // --- ANSICHT 2: HAUPT-ÜBERSICHT (KATEGORIEN & LIEFERANTEN KACHELN) ---
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$category$2d$view$2f$category$2d$view$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].container,
         children: [
@@ -766,7 +844,7 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                 children: viewMode === 'categories' ? 'Kategorien-Übersicht' : 'Lieferanten-Übersicht'
                             }, void 0, false, {
                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                lineNumber: 232,
+                                lineNumber: 267,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -793,7 +871,7 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                         children: "Kategorien"
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                        lineNumber: 238,
+                                        lineNumber: 272,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -811,19 +889,19 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                         children: "Lieferanten"
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                        lineNumber: 253,
+                                        lineNumber: 287,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                lineNumber: 237,
+                                lineNumber: 271,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                        lineNumber: 231,
+                        lineNumber: 266,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -838,7 +916,7 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                             }
                         }, void 0, false, {
                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                            lineNumber: 274,
+                            lineNumber: 307,
                             columnNumber: 13
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                             type: "text",
@@ -851,18 +929,18 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                             }
                         }, void 0, false, {
                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                            lineNumber: 283,
+                            lineNumber: 316,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                        lineNumber: 272,
+                        lineNumber: 305,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                lineNumber: 230,
+                lineNumber: 265,
                 columnNumber: 7
             }, this),
             viewMode === 'categories' ? filteredCategories.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -879,7 +957,7 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                         children: categoryName
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                        lineNumber: 306,
+                                        lineNumber: 338,
                                         columnNumber: 19
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -888,18 +966,18 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                             className: "h-5 w-5"
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                            lineNumber: 308,
+                                            lineNumber: 340,
                                             columnNumber: 21
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                        lineNumber: 307,
+                                        lineNumber: 339,
                                         columnNumber: 19
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                lineNumber: 305,
+                                lineNumber: 337,
                                 columnNumber: 17
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -911,7 +989,7 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                                 children: "Artikel: "
                                             }, void 0, false, {
                                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                lineNumber: 313,
+                                                lineNumber: 345,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -919,13 +997,13 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                                 children: data.count
                                             }, void 0, false, {
                                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                lineNumber: 314,
+                                                lineNumber: 346,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                        lineNumber: 312,
+                                        lineNumber: 344,
                                         columnNumber: 19
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -934,7 +1012,7 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                                 children: "Wert: "
                                             }, void 0, false, {
                                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                lineNumber: 317,
+                                                lineNumber: 349,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -942,37 +1020,37 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                                 children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(data.totalValue)
                                             }, void 0, false, {
                                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                lineNumber: 318,
+                                                lineNumber: 350,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                        lineNumber: 316,
+                                        lineNumber: 348,
                                         columnNumber: 19
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                lineNumber: 311,
+                                lineNumber: 343,
                                 columnNumber: 17
                             }, this)
                         ]
                     }, categoryName, true, {
                         fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                        lineNumber: 300,
+                        lineNumber: 332,
                         columnNumber: 15
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                lineNumber: 298,
+                lineNumber: 330,
                 columnNumber: 11
             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$category$2d$view$2f$category$2d$view$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].noResults,
                 children: "Keine Kategorie gefunden."
             }, void 0, false, {
                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                lineNumber: 325,
+                lineNumber: 357,
                 columnNumber: 11
             }, this) : filteredSuppliers.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$category$2d$view$2f$category$2d$view$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].grid,
@@ -988,7 +1066,7 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                         children: supplierName
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                        lineNumber: 337,
+                                        lineNumber: 369,
                                         columnNumber: 19
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -997,18 +1075,18 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                             className: "h-5 w-5"
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                            lineNumber: 339,
+                                            lineNumber: 371,
                                             columnNumber: 21
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                        lineNumber: 338,
+                                        lineNumber: 370,
                                         columnNumber: 19
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                lineNumber: 336,
+                                lineNumber: 368,
                                 columnNumber: 17
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1020,7 +1098,7 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                                 children: "Artikel: "
                                             }, void 0, false, {
                                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                lineNumber: 344,
+                                                lineNumber: 376,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1028,13 +1106,13 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                                 children: data.count
                                             }, void 0, false, {
                                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                lineNumber: 345,
+                                                lineNumber: 377,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                        lineNumber: 343,
+                                        lineNumber: 375,
                                         columnNumber: 19
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1043,7 +1121,7 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                                 children: "Wert: "
                                             }, void 0, false, {
                                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                lineNumber: 348,
+                                                lineNumber: 380,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1051,43 +1129,43 @@ function CategoryView({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAd
                                                 children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(data.totalValue)
                                             }, void 0, false, {
                                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                                lineNumber: 349,
+                                                lineNumber: 381,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                        lineNumber: 347,
+                                        lineNumber: 379,
                                         columnNumber: 19
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                                lineNumber: 342,
+                                lineNumber: 374,
                                 columnNumber: 17
                             }, this)
                         ]
                     }, supplierName, true, {
                         fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                        lineNumber: 331,
+                        lineNumber: 363,
                         columnNumber: 15
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                lineNumber: 329,
+                lineNumber: 361,
                 columnNumber: 11
             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$category$2d$view$2f$category$2d$view$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].noResults,
                 children: "Keine Lieferanten gefunden."
             }, void 0, false, {
                 fileName: "[project]/components/inventory/category-view/category-view.tsx",
-                lineNumber: 356,
+                lineNumber: 388,
                 columnNumber: 11
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/inventory/category-view/category-view.tsx",
-        lineNumber: 229,
+        lineNumber: 264,
         columnNumber: 5
     }, this);
 }
