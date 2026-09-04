@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Header } from '../components/layout/header/header';
 import { Sidebar } from '../components/layout/sidebar/sidebar';
 import { StatsCards } from '../components/inventory/stats-cards/stats-cards';
-import { InventoryTable } from '../components/inventory/inventory-table/inventory-table'; // Passe den Pfad an falls nötig
+import { InventoryTable } from '../components/inventory/inventory-table/inventory-table';
 import { CategoryView } from '../components/inventory/category-view/category-view';
 import { ReportsView } from '../components/reports/reports-view';
 import { ItemModal } from '../components/inventory/item-modal/item-modal';
@@ -20,8 +20,8 @@ export default function Home() {
 
   const criticalItems = items.filter((item: any) => item.stock <= item.minStock);
   const existingCategories = Array.from(
-  new Set(items.map((item: any) => item.category).filter(Boolean))
-) as string[];
+    new Set(items.map((item: any) => item.category).filter(Boolean))
+  ) as string[];
 
   const fetchItems = async () => {
     try {
@@ -37,26 +37,38 @@ export default function Home() {
     fetchItems();
   }, []);
 
+  // OPTIMISTISCHES UPDATE: Ändert den Bestand sofort lokal, speichert im Hintergrund
   const handleUpdateStock = async (id: string, newStock: number) => {
+    // 1. Lokalen State sofort aktualisieren (0 Millisekunden Wartezeit)
+    setItems((prevItems) =>
+      prevItems.map((item) => (item.id === id ? { ...item, stock: newStock } : item))
+    );
+
     try {
+      // 2. Im Hintergrund an die Datenbank schicken
       await fetch('/api/inventory', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, stock: newStock }),
       });
-      fetchItems();
     } catch (err) {
       console.error('Fehler beim Aktualisieren', err);
+      // Falls es fehlschlägt, holen wir zur Sicherheit die echten Daten zurück
+      fetchItems();
     }
   };
 
   const handleDeleteItem = async (id: string) => {
     if (!confirm('Artikel wirklich löschen?')) return;
+    
+    // Auch hier direkt lokal entfernen für ein flüssiges Gefühl
+    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+
     try {
       await fetch(`/api/inventory?id=${id}`, { method: 'DELETE' });
-      fetchItems();
     } catch (err) {
       console.error('Fehler beim Löschen', err);
+      fetchItems();
     }
   };
 
@@ -69,7 +81,7 @@ export default function Home() {
         body: JSON.stringify(itemData),
       });
       fetchItems();
-    } catch (err) {
+    }  catch (err) {
       console.error('Fehler beim Speichern', err);
     }
   };
