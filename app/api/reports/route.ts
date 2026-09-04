@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-// Pfad zur JSON-Datei im Projekt-Root
+// Einheitlicher Pfad zur JSON-Datei im data-Ordner
 const reportsFilePath = path.join(process.cwd(), 'data', 'reports.json');
 
 function ensureDataFile() {
@@ -44,9 +44,9 @@ export async function POST(req: Request) {
   try {
     const newReport = await req.json();
     const reports = getReports();
-    reports.unshift(newReport);
-    saveReports(reports);
-    return NextResponse.json(newReport, { status: 201 });
+    const updated = [newReport, ...reports];
+    saveReports(updated);
+    return NextResponse.json(updated, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Fehler beim Speichern' }, { status: 500 });
   }
@@ -62,7 +62,7 @@ export async function DELETE(req: Request) {
     let reports = getReports();
     reports = reports.filter((r: any) => r.id !== id);
     saveReports(reports);
-    return NextResponse.json({ success: true });
+    return NextResponse.json(reports); // Gibt direkt die aktualisierte Liste zurück
   } catch (error) {
     return NextResponse.json({ error: 'Fehler beim Löschen' }, { status: 500 });
   }

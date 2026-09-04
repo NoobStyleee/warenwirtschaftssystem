@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { FileSpreadsheet, Download, FileText, PlusCircle, Printer, Trash2 } from 'lucide-react';
+import { FileSpreadsheet, Download, FileText, PlusCircle, Printer, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import { InventoryItem } from '../../types/inventory';
 import { Button } from '../ui/button/button';
@@ -11,7 +11,7 @@ interface ReportHistoryItem {
   id: string;
   name: string;
   type: string;
-  categoryFilter: string;
+  supplierFilter: string;
   format: 'PDF' | 'CSV' | 'Excel';
   createdDate: string;
   rawItems: InventoryItem[];
@@ -21,48 +21,31 @@ interface ReportsViewProps {
   items: InventoryItem[];
 }
 
-const LOCAL_STORAGE_KEY = 'inventory_generated_reports_v1';
+const ITEMS_PER_PAGE = 10;
 
 export function ReportsView({ items }: ReportsViewProps) {
   const [reportType, setReportType] = useState('inventory-status');
-  const [selectedCategory, setSelectedCategory] = useState('ALL');
+  const [selectedSupplier, setSelectedSupplier] = useState('ALL');
   const [format, setFormat] = useState<'PDF' | 'CSV' | 'Excel'>('Excel');
   const [history, setHistory] = useState<ReportHistoryItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  // Kategorien aus Artikeln extrahieren
-  const categories = Array.from(new Set(items.map((i) => i.category))).filter(Boolean);
+  const suppliers = Array.from(new Set(items.map((i) => i.supplier))).filter(Boolean) as string[];
 
-  // 1. Berichte beim Start laden (erst API, Fallback auf LocalStorage)
+  // 1. Berichte vom Server laden
   useEffect(() => {
     const loadReports = async () => {
       try {
         const res = await fetch('/api/reports');
-        const contentType = res.headers.get('content-type');
-
-        // Sicherstellen, dass die Antwort echtes JSON ist
-        if (res.ok && contentType && contentType.includes('application/json')) {
+        if (res.ok) {
           const data = await res.json();
           if (Array.isArray(data)) {
             setHistory(data);
-            // Backup in localStorage aktualisieren
-            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
-            setLoading(false);
-            return;
           }
         }
       } catch (err) {
-        console.warn('API /api/reports nicht erreichbar, nutze LocalStorage Backup:', err);
-      }
-
-      // Fallback: Aus LocalStorage laden
-      const savedLocal = localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (savedLocal) {
-        try {
-          setHistory(JSON.parse(savedLocal));
-        } catch (e) {
-          console.error('Fehler beim Lesen aus LocalStorage:', e);
-        }
+        console.warn('Fehler beim Laden der Berichte vom Server:', err);
       }
       setLoading(false);
     };
@@ -70,30 +53,26 @@ export function ReportsView({ items }: ReportsViewProps) {
     loadReports();
   }, []);
 
-  // Filtern der Artikel
-  const getFilteredItems = (type: string, category: string) => {
+  const getFilteredItems = (type: string, supplier: string) => {
     let filtered = [...items];
-
-    if (category !== 'ALL') {
-      filtered = filtered.filter((i) => i.category === category);
+    if (supplier !== 'ALL') {
+      filtered = filtered.filter((i) => (i.supplier || 'Kein Lieferant') === supplier);
     }
-
     if (type === 'low-stock') {
       filtered = filtered.filter((i) => i.stock <= i.minStock);
     }
-
     return filtered;
   };
 
-  // Excel Generierung (.xlsx)
-  const generateExcel = (dataItems: InventoryItem[], fileName: string) => {
+  const createTableRows = (dataItems: InventoryItem[]) => {
     const totalStock = dataItems.reduce((sum, item) => sum + item.stock, 0);
     const totalValue = dataItems.reduce((sum, item) => sum + item.stock * item.price, 0);
 
     const tableData = dataItems.map((item) => ({
       'SKU / Artikel-Nr.': item.sku,
       Name: item.name,
-      Kategorie: item.category,
+      Kategorie: item.category || 'Unkategorisiert',
+      Lieferant: item.supplier || 'Kein Lieferant',
       'Bestand (Stk.)': item.stock,
       Mindestbestand: item.minStock,
       'Einzelpreis (€)': item.price,
@@ -105,6 +84,7 @@ export function ReportsView({ items }: ReportsViewProps) {
       'SKU / Artikel-Nr.': 'GESAMTSUMME',
       Name: `${dataItems.length} Artikel`,
       Kategorie: '-',
+      Lieferant: '-',
       'Bestand (Stk.)': totalStock,
       Mindestbestand: 0,
       'Einzelpreis (€)': 0,
@@ -112,26 +92,45 @@ export function ReportsView({ items }: ReportsViewProps) {
       Lagerort: '-',
     });
 
-    const worksheet = XLSX.utils.json_to_sheet(tableData);
-    worksheet['!cols'] = [
-      { wch: 18 },
-      { wch: 25 },
-      { wch: 15 },
-      { wch: 15 },
-      { wch: 15 },
-      { wch: 15 },
-      { wch: 15 },
-      { wch: 15 },
-    ];
+    return tableData;
+  };
 
+  const standardCols = [
+    { wch: 18 }, { wch: 25 }, { wch: 16 }, { wch: 16 },
+    { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 15 },
+  ];
+
+  const generateExcel = (dataItems: InventoryItem[], fileName: string, supplierFilter: string) => {
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Lagerbericht');
+
+    if (supplierFilter === 'ALL') {
+      const summaryData = createTableRows(items);
+      const summarySheet = XLSX.utils.json_to_sheet(summaryData);
+      summarySheet['!cols'] = standardCols;
+      XLSX.utils.book_append_sheet(workbook, summarySheet, 'Gesamtübersicht');
+
+      suppliers.forEach((sup) => {
+        const supItems = items.filter((i) => (i.supplier || 'Kein Lieferant') === sup);
+        if (supItems.length > 0) {
+          const supData = createTableRows(supItems);
+          const supSheet = XLSX.utils.json_to_sheet(supData);
+          supSheet['!cols'] = standardCols;
+          const safeSheetName = sup.replace(/[:\\/?*\[\]]/g, '_').substring(0, 31);
+          XLSX.utils.book_append_sheet(workbook, supSheet, safeSheetName);
+        }
+      });
+    } else {
+      const sheetData = createTableRows(dataItems);
+      const worksheet = XLSX.utils.json_to_sheet(sheetData);
+      worksheet['!cols'] = standardCols;
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Lieferantenbericht');
+    }
+
     XLSX.writeFile(workbook, fileName);
   };
 
-  // CSV Generierung (.csv)
   const generateCSV = (dataItems: InventoryItem[], fileName: string) => {
-    let csv = 'SKU;Name;Kategorie;Bestand;Mindestbestand;Einzelpreis Euro;Gesamtwert Euro;Lagerort\n';
+    let csv = 'SKU;Name;Kategorie;Lieferant;Bestand;Mindestbestand;Einzelpreis Euro;Gesamtwert Euro;Lagerort\n';
     let totalStock = 0;
     let totalValue = 0;
 
@@ -139,14 +138,10 @@ export function ReportsView({ items }: ReportsViewProps) {
       const val = item.stock * item.price;
       totalStock += item.stock;
       totalValue += val;
-
-      const priceStr = item.price.toFixed(2).replace('.', ',');
-      const valStr = val.toFixed(2).replace('.', ',');
-
-      csv += `${item.sku};${item.name};${item.category};${item.stock};${item.minStock};${priceStr};${valStr};${item.location || '-'}\n`;
+      csv += `${item.sku};${item.name};${item.category || 'Unkategorisiert'};${item.supplier || 'Kein Lieferant'};${item.stock};${item.minStock};${item.price.toFixed(2).replace('.', ',')};${val.toFixed(2).replace('.', ',')};${item.location || '-'}\n`;
     });
 
-    csv += `GESAMTSUMME;${dataItems.length} Artikel;-;${totalStock};-;${totalValue.toFixed(2).replace('.', ',')};-\n`;
+    csv += `GESAMTSUMME;${dataItems.length} Artikel;-;-;${totalStock};-;${totalValue.toFixed(2).replace('.', ',')};-\n`;
 
     const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -158,8 +153,7 @@ export function ReportsView({ items }: ReportsViewProps) {
     document.body.removeChild(link);
   };
 
-  // PDF Generierung
-  const printPDF = (title: string, categoryName: string, dataItems: InventoryItem[]) => {
+  const printPDF = (title: string, supplierName: string, dataItems: InventoryItem[]) => {
     const printWindow = window.open('', '_blank');
     if (!printWindow) return;
 
@@ -172,11 +166,13 @@ export function ReportsView({ items }: ReportsViewProps) {
       <tr>
         <td><strong>${item.sku}</strong></td>
         <td>${item.name}</td>
-        <td>${item.category}</td>
+        <td>${item.category || '-'}</td>
+        <td>${item.supplier || '-'}</td>
         <td style="text-align: right;">${item.stock}</td>
         <td style="text-align: right;">${item.minStock}</td>
         <td style="text-align: right;">${item.price.toFixed(2).replace('.', ',')} €</td>
         <td style="text-align: right;"><strong>${(item.stock * item.price).toFixed(2).replace('.', ',')} €</strong></td>
+        <td>${item.location || '-'}</td>
       </tr>
     `
       )
@@ -193,7 +189,7 @@ export function ReportsView({ items }: ReportsViewProps) {
             h1 { font-size: 22px; margin: 0; color: #1e293b; }
             .meta { font-size: 13px; color: #64748b; margin-top: 5px; }
             table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-            th, td { border: 1px solid #cbd5e1; padding: 8px 12px; font-size: 13px; }
+            th, td { border: 1px solid #cbd5e1; padding: 8px 12px; font-size: 12px; }
             th { background-color: #f1f5f9; text-align: left; font-weight: 600; color: #334155; }
             tr:nth-child(even) { background-color: #f8fafc; }
             .total-row { background-color: #e2e8f0 !important; font-weight: bold; }
@@ -203,7 +199,7 @@ export function ReportsView({ items }: ReportsViewProps) {
           <div class="header">
             <h1>Warenwirtschaftssystem - ${title}</h1>
             <div class="meta">
-              Kategorie: <strong>${categoryName}</strong> | Erstellt am: ${new Date().toLocaleString('de-DE')}
+              Lieferanten-Filter: <strong>${supplierName}</strong> | Erstellt am: ${new Date().toLocaleString('de-DE')}
             </div>
           </div>
           <table>
@@ -212,20 +208,23 @@ export function ReportsView({ items }: ReportsViewProps) {
                 <th>SKU</th>
                 <th>Artikelname</th>
                 <th>Kategorie</th>
+                <th>Lieferant</th>
                 <th style="text-align: right;">Bestand</th>
                 <th style="text-align: right;">Mindestst.</th>
                 <th style="text-align: right;">Einzelpreis</th>
                 <th style="text-align: right;">Gesamtwert</th>
+                <th>Lagerort</th>
               </tr>
             </thead>
             <tbody>
               ${rowsHtml}
               <tr class="total-row">
-                <td colspan="3">GESAMTSUMME (${dataItems.length} Artikel)</td>
+                <td colspan="4">GESAMTSUMME (${dataItems.length} Artikel)</td>
                 <td style="text-align: right;">${totalStock}</td>
                 <td>-</td>
                 <td>-</td>
                 <td style="text-align: right;">${totalValue.toFixed(2).replace('.', ',')} €</td>
+                <td>-</td>
               </tr>
             </tbody>
           </table>
@@ -238,9 +237,8 @@ export function ReportsView({ items }: ReportsViewProps) {
     printWindow.document.close();
   };
 
-  // Bericht erstellen und speichern
   const handleGenerateReport = async () => {
-    const selectedItems = getFilteredItems(reportType, selectedCategory);
+    const selectedItems = getFilteredItems(reportType, selectedSupplier);
     const timestamp = new Date().toISOString().slice(0, 10);
 
     const typeLabel =
@@ -250,15 +248,14 @@ export function ReportsView({ items }: ReportsViewProps) {
         ? 'Nachbestellungen'
         : 'Wertanalyse';
 
-    const catLabel = selectedCategory === 'ALL' ? 'Alle_Kategorien' : selectedCategory.replace(/\s+/g, '_');
+    const supLabel = selectedSupplier === 'ALL' ? 'Alle_Lieferanten' : selectedSupplier.replace(/\s+/g, '_');
     const ext = format === 'Excel' ? 'xlsx' : format === 'CSV' ? 'csv' : 'pdf';
-    const fileName = `${typeLabel}_${catLabel}_${timestamp}.${ext}`;
+    const fileName = `${typeLabel}_${supLabel}_${timestamp}.${ext}`;
 
-    // Datei herunterladen/öffnen
     if (format === 'PDF') {
-      printPDF(typeLabel, selectedCategory === 'ALL' ? 'Alle Kategorien' : selectedCategory, selectedItems);
+      printPDF(typeLabel, selectedSupplier === 'ALL' ? 'Alle Lieferanten' : selectedSupplier, selectedItems);
     } else if (format === 'Excel') {
-      generateExcel(selectedItems, fileName);
+      generateExcel(selectedItems, fileName, selectedSupplier);
     } else {
       generateCSV(selectedItems, fileName);
     }
@@ -267,57 +264,65 @@ export function ReportsView({ items }: ReportsViewProps) {
       id: Date.now().toString(),
       name: fileName,
       type: typeLabel,
-      categoryFilter: selectedCategory === 'ALL' ? 'Alle Kategorien' : selectedCategory,
+      supplierFilter: selectedSupplier === 'ALL' ? 'Alle Lieferanten' : selectedSupplier,
       format,
       createdDate: new Date().toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'short' }),
       rawItems: selectedItems,
     };
 
-    // Im State und LocalStorage speichern
-    const updatedHistory = [newEntry, ...history];
-    setHistory(updatedHistory);
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedHistory));
-
-    // Versuchen im Backend zu speichern
+    // An Server senden, damit es dort dauerhaft gespeichert wird
     try {
-      await fetch('/api/reports', {
+      const res = await fetch('/api/reports', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newEntry),
       });
+      if (res.ok) {
+        const savedData = await res.json();
+        setHistory(savedData); // Aktualisierte Liste vom Server holen
+      } else {
+        setHistory([newEntry, ...history]);
+      }
     } catch (err) {
-      console.warn('Hintergrund-Speicherung im Backend fehlgeschlagen (im LocalStorage gesichert):', err);
+      console.warn('Speichern auf Server fehlgeschlagen:', err);
+      setHistory([newEntry, ...history]);
     }
+    setCurrentPage(1);
   };
 
-  // Löschen
   const handleDeleteReport = async (id: string) => {
-    const updatedHistory = history.filter((item) => item.id !== id);
-    setHistory(updatedHistory);
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedHistory));
-
     try {
-      await fetch(`/api/reports?id=${id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/reports?id=${id}`, { method: 'DELETE' });
+      if (res.ok) {
+        const updated = await res.json();
+        setHistory(updated);
+      } else {
+        setHistory(history.filter((item) => item.id !== id));
+      }
     } catch (err) {
-      console.warn('Backend-Löschung fehlgeschlagen:', err);
+      setHistory(history.filter((item) => item.id !== id));
     }
   };
 
   const handleReDownload = (item: ReportHistoryItem) => {
     if (item.format === 'PDF') {
-      printPDF(item.type, item.categoryFilter, item.rawItems);
+      printPDF(item.type, item.supplierFilter, item.rawItems);
     } else if (item.format === 'Excel') {
-      generateExcel(item.rawItems, item.name);
+      generateExcel(item.rawItems, item.name, selectedSupplier);
     } else {
       generateCSV(item.rawItems, item.name);
     }
   };
 
+  // Pagination Berechnungen
+  const totalPages = Math.ceil(history.length / ITEMS_PER_PAGE) || 1;
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const currentItems = history.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Berichte & Export</h2>
 
-      {/* Formular */}
       <div className={styles.card}>
         <div className={styles.cardHeader}>
           <FileSpreadsheet className="h-6 w-6 text-blue-600" />
@@ -335,12 +340,12 @@ export function ReportsView({ items }: ReportsViewProps) {
           </div>
 
           <div className={styles.fieldGroup}>
-            <label className={styles.label}>Kategorie-Filter</label>
-            <select className={styles.select} value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-              <option value="ALL">Alle Kategorien</option>
-              {categories.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
+            <label className={styles.label}>Lieferanten-Filter (für Auswahl)</label>
+            <select className={styles.select} value={selectedSupplier} onChange={(e) => setSelectedSupplier(e.target.value)}>
+              <option value="ALL">Alle Lieferanten (Multi-Tab Excel)</option>
+              {suppliers.map((sup) => (
+                <option key={sup} value={sup}>
+                  {sup}
                 </option>
               ))}
             </select>
@@ -369,10 +374,11 @@ export function ReportsView({ items }: ReportsViewProps) {
         </Button>
       </div>
 
-      {/* Historie */}
-      <h3 className={styles.title} style={{ fontSize: '1.125rem', marginTop: '1rem' }}>
-        Generierte Berichte / Downloads
-      </h3>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem' }}>
+        <h3 className={styles.title} style={{ fontSize: '1.125rem', margin: 0 }}>
+          Generierte Berichte / Downloads ({history.length})
+        </h3>
+      </div>
 
       <div className={styles.tableContainer}>
         <table className={styles.table}>
@@ -380,7 +386,7 @@ export function ReportsView({ items }: ReportsViewProps) {
             <tr>
               <th>Dateiname</th>
               <th>Typ</th>
-              <th>Kategorie</th>
+              <th>Lieferanten-Filter</th>
               <th>Format</th>
               <th>Erstellt am</th>
               <th>Aktionen</th>
@@ -393,8 +399,8 @@ export function ReportsView({ items }: ReportsViewProps) {
                   Lade Historie...
                 </td>
               </tr>
-            ) : history.length > 0 ? (
-              history.map((item) => (
+            ) : currentItems.length > 0 ? (
+              currentItems.map((item) => (
                 <tr key={item.id}>
                   <td style={{ fontWeight: 600 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -403,7 +409,7 @@ export function ReportsView({ items }: ReportsViewProps) {
                     </div>
                   </td>
                   <td>{item.type}</td>
-                  <td>{item.categoryFilter}</td>
+                  <td>{item.supplierFilter}</td>
                   <td>
                     <span
                       className={`${styles.badge} ${
@@ -453,6 +459,31 @@ export function ReportsView({ items }: ReportsViewProps) {
           </tbody>
         </table>
       </div>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', marginTop: '1rem' }}>
+          <button
+            className={styles.downloadBtn}
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+            style={{ opacity: currentPage === 1 ? 0.5 : 1 }}
+          >
+            <ChevronLeft className="h-4 w-4" /> Zurück
+          </button>
+          <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>
+            Seite {currentPage} von {totalPages}
+          </span>
+          <button
+            className={styles.downloadBtn}
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+            style={{ opacity: currentPage === totalPages ? 0.5 : 1 }}
+          >
+            Weiter <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

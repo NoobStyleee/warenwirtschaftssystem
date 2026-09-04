@@ -22,7 +22,12 @@ export default function Home() {
   const existingCategories = Array.from(
     new Set(items.map((item: any) => item.category).filter(Boolean))
   ) as string[];
+  const existingSuppliers = Array.from(
+    new Set(items.map((item: any) => item.supplier).filter(Boolean))
+  ) as string[];
 
+
+  
   const fetchItems = async () => {
     try {
       const res = await fetch('/api/inventory');
@@ -141,6 +146,7 @@ export default function Home() {
         onClose={() => setIsModalOpen(false)}
         onSave={handleSaveItem}
         existingCategories={existingCategories}
+        existingSuppliers={existingSuppliers}
       />
 
       {/* Sauberes Restock Modal als eigenständige Komponente */}

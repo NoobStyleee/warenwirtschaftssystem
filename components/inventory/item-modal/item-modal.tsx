@@ -12,13 +12,22 @@ interface ItemModalProps {
   initialData?: InventoryItem | null;
   onSave: (item: any) => void;
   existingCategories: string[];
+  existingSuppliers: string[];
 }
 
-export function ItemModal({ isOpen, onClose, initialData, onSave, existingCategories }: ItemModalProps) {
+export function ItemModal({ 
+  isOpen, 
+  onClose, 
+  initialData, 
+  onSave, 
+  existingCategories,
+  existingSuppliers 
+}: ItemModalProps) {
   const [formData, setFormData] = useState({
     sku: '',
     name: '',
     category: '',
+    supplier: '',
     stock: 0,
     minStock: 5,
     price: 0,
@@ -29,16 +38,19 @@ export function ItemModal({ isOpen, onClose, initialData, onSave, existingCatego
   const [isCreatingNewCategory, setIsCreatingNewCategory] = useState(false);
   const [newCategoryInput, setNewCategoryInput] = useState('');
 
+  const [isCreatingNewSupplier, setIsCreatingNewSupplier] = useState(false);
+  const [newSupplierInput, setNewSupplierInput] = useState('');
+
   const mouseDownTargetRef = useRef<EventTarget | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (initialData) {
-      const cat = initialData.category || '';
       setFormData({
         sku: initialData.sku || '',
         name: initialData.name || '',
-        category: cat,
+        category: initialData.category || '',
+        supplier: initialData.supplier || '',
         stock: initialData.stock || 0,
         minStock: initialData.minStock || 5,
         price: initialData.price || 0,
@@ -47,12 +59,16 @@ export function ItemModal({ isOpen, onClose, initialData, onSave, existingCatego
       });
       setIsCreatingNewCategory(false);
       setNewCategoryInput('');
+      setIsCreatingNewSupplier(false);
+      setNewSupplierInput('');
     } else {
       const defaultCat = existingCategories[0] || 'Allgemein';
+      const defaultSup = existingSuppliers[0] || '';
       setFormData({
         sku: '',
         name: '',
         category: defaultCat,
+        supplier: defaultSup,
         stock: 0,
         minStock: 5,
         price: 0,
@@ -61,8 +77,10 @@ export function ItemModal({ isOpen, onClose, initialData, onSave, existingCatego
       });
       setIsCreatingNewCategory(false);
       setNewCategoryInput('');
+      setIsCreatingNewSupplier(false);
+      setNewSupplierInput('');
     }
-  }, [initialData, isOpen, existingCategories]);
+  }, [initialData, isOpen, existingCategories, existingSuppliers]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -94,9 +112,13 @@ export function ItemModal({ isOpen, onClose, initialData, onSave, existingCatego
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    const finalCategory = isCreatingNewCategory ? newCategoryInput.trim() || 'Allgemein' : formData.category;
+    const finalSupplier = isCreatingNewSupplier ? newSupplierInput.trim() : formData.supplier;
+
     const finalData = {
       ...formData,
-      category: isCreatingNewCategory ? newCategoryInput.trim() || 'Allgemein' : formData.category,
+      category: finalCategory,
+      supplier: finalSupplier,
     };
 
     onSave(initialData ? { ...finalData, id: initialData.id } : finalData);
@@ -143,10 +165,9 @@ export function ItemModal({ isOpen, onClose, initialData, onSave, existingCatego
               />
             </div>
 
-            {/* Kategorie Auswahl ohne störenden Button */}
+            {/* Kategorie Auswahl */}
             <div className={styles.field}>
               <label className={styles.label}>Kategorie</label>
-              
               {!isCreatingNewCategory ? (
                 <select
                   className={styles.input}
@@ -183,15 +204,56 @@ export function ItemModal({ isOpen, onClose, initialData, onSave, existingCatego
             </div>
           </div>
 
-          <div className={styles.field}>
-            <label className={styles.label}>Artikelbezeichnung</label>
-            <input
-              required
-              type="text"
-              className={styles.input}
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            />
+          <div className={styles.grid}>
+            {/* Artikelbezeichnung */}
+            <div className={styles.field}>
+              <label className={styles.label}>Artikelbezeichnung</label>
+              <input
+                required
+                type="text"
+                className={styles.input}
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              />
+            </div>
+
+            {/* Lieferant Auswahl */}
+            <div className={styles.field}>
+              <label className={styles.label}>Lieferant</label>
+              {!isCreatingNewSupplier ? (
+                <select
+                  className={styles.input}
+                  value={formData.supplier}
+                  onChange={(e) => {
+                    if (e.target.value === '__NEW__') {
+                      setIsCreatingNewSupplier(true);
+                      setNewSupplierInput('');
+                    } else {
+                      setFormData({ ...formData, supplier: e.target.value });
+                    }
+                  }}
+                >
+                  <option value="">Kein Lieferant</option>
+                  {existingSuppliers.map((sup) => (
+                    <option key={sup} value={sup}>
+                      {sup}
+                    </option>
+                  ))}
+                  <option value="__NEW__" style={{ fontWeight: 'bold', color: '#3b82f6' }}>
+                    + Neuer Lieferant...
+                  </option>
+                </select>
+              ) : (
+                <input
+                  type="text"
+                  className={styles.input}
+                  placeholder="Neuen Lieferanten eingeben..."
+                  value={newSupplierInput}
+                  onChange={(e) => setNewSupplierInput(e.target.value)}
+                  autoFocus
+                />
+              )}
+            </div>
           </div>
 
           <div className={styles.grid}>

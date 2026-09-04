@@ -108,6 +108,7 @@ async function POST(request) {
                 sku: String(body.sku),
                 name: String(body.name),
                 category: String(body.category || 'Allgemein'),
+                supplier: body.supplier ? String(body.supplier) : null,
                 stock: Number(body.stock) || 0,
                 minStock: Number(body.minStock) || 0,
                 price: parseFloat(body.price) || 0,
@@ -142,11 +143,13 @@ async function PUT(request) {
         if (data.sku !== undefined) updateData.sku = String(data.sku);
         if (data.name !== undefined) updateData.name = String(data.name);
         if (data.category !== undefined) updateData.category = String(data.category);
+        if (data.supplier !== undefined) {
+            updateData.supplier = data.supplier ? String(data.supplier) : null;
+        }
         if (data.stock !== undefined) updateData.stock = Number(data.stock);
         if (data.minStock !== undefined) updateData.minStock = Number(data.minStock);
         if (data.price !== undefined) updateData.price = parseFloat(data.price);
         if (data.location !== undefined) updateData.location = data.location ? String(data.location) : null;
-        // Hier wird das Text-Feld jetzt absolut sicher für Updates verarbeitet
         if (data.text !== undefined) {
             updateData.text = data.text ? String(data.text) : null;
         }

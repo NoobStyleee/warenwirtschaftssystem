@@ -7,6 +7,7 @@ export interface InventoryItem {
   minStock: number;     // Mindestbestand (Lagerwarnung wenn stock <= minStock)
   price: number;        // Einzelpreis in Euro
   location?: string;    // Optional: z. B. "Regal A2"
+  supplier?: string;
   text?: string;        // Optional: Zusätzliche Beschreibung oder Text
   createdAt: Date;
   updatedAt: Date;

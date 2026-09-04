@@ -88,7 +88,7 @@ var __TURBOPACK__imported__module__$5b$externals$5d2f$path__$5b$external$5d$__$2
 ;
 ;
 ;
-// Pfad zur JSON-Datei im Projekt-Root
+// Einheitlicher Pfad zur JSON-Datei im data-Ordner
 const reportsFilePath = __TURBOPACK__imported__module__$5b$externals$5d2f$path__$5b$external$5d$__$28$path$2c$__cjs$29$__["default"].join(process.cwd(), 'data', 'reports.json');
 function ensureDataFile() {
     const dirPath = __TURBOPACK__imported__module__$5b$externals$5d2f$path__$5b$external$5d$__$28$path$2c$__cjs$29$__["default"].dirname(reportsFilePath);
@@ -127,9 +127,12 @@ async function POST(req) {
     try {
         const newReport = await req.json();
         const reports = getReports();
-        reports.unshift(newReport);
-        saveReports(reports);
-        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(newReport, {
+        const updated = [
+            newReport,
+            ...reports
+        ];
+        saveReports(updated);
+        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(updated, {
             status: 201
         });
     } catch (error) {
@@ -154,9 +157,7 @@ async function DELETE(req) {
         let reports = getReports();
         reports = reports.filter((r)=>r.id !== id);
         saveReports(reports);
-        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-            success: true
-        });
+        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(reports); // Gibt direkt die aktualisierte Liste zurück
     } catch (error) {
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             error: 'Fehler beim Löschen'
