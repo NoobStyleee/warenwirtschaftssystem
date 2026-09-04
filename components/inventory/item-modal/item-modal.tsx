@@ -11,13 +11,14 @@ interface ItemModalProps {
   onClose: () => void;
   initialData?: InventoryItem | null;
   onSave: (item: any) => void;
+  existingCategories: string[];
 }
 
-export function ItemModal({ isOpen, onClose, initialData, onSave }: ItemModalProps) {
+export function ItemModal({ isOpen, onClose, initialData, onSave, existingCategories }: ItemModalProps) {
   const [formData, setFormData] = useState({
     sku: '',
     name: '',
-    category: 'Motoren',
+    category: '',
     stock: 0,
     minStock: 5,
     price: 0,
@@ -25,55 +26,58 @@ export function ItemModal({ isOpen, onClose, initialData, onSave }: ItemModalPro
     text: '',
   });
 
-  // Refs
+  const [isCreatingNewCategory, setIsCreatingNewCategory] = useState(false);
+  const [newCategoryInput, setNewCategoryInput] = useState('');
+
   const mouseDownTargetRef = useRef<EventTarget | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Formular-Daten bei Öffnen oder initialData-Änderung füllen
   useEffect(() => {
     if (initialData) {
+      const cat = initialData.category || '';
       setFormData({
         sku: initialData.sku || '',
         name: initialData.name || '',
-        category: initialData.category || 'Motoren',
+        category: cat,
         stock: initialData.stock || 0,
         minStock: initialData.minStock || 5,
         price: initialData.price || 0,
         location: initialData.location || '',
         text: initialData.text || '',
       });
+      setIsCreatingNewCategory(false);
+      setNewCategoryInput('');
     } else {
+      const defaultCat = existingCategories[0] || 'Allgemein';
       setFormData({
         sku: '',
         name: '',
-        category: 'Motoren',
+        category: defaultCat,
         stock: 0,
         minStock: 5,
         price: 0,
         location: '',
         text: '',
       });
+      setIsCreatingNewCategory(false);
+      setNewCategoryInput('');
     }
-  }, [initialData, isOpen]);
+  }, [initialData, isOpen, existingCategories]);
 
-  // Schließen bei ESC-Taste
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         onClose();
       }
     };
-
     if (isOpen) {
       window.addEventListener('keydown', handleKeyDown);
     }
-
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen, onClose]);
 
-  // Funktion zum automatischen Anpassen der Texthöhe
   const adjustHeight = (element: HTMLTextAreaElement | null) => {
     if (element) {
       element.style.height = 'auto';
@@ -81,41 +85,37 @@ export function ItemModal({ isOpen, onClose, initialData, onSave }: ItemModalPro
     }
   };
 
-  // Höhe initial / bei Textänderung anpassen
   useEffect(() => {
     adjustHeight(textareaRef.current);
   }, [formData.text, isOpen]);
 
-  // WICHTIG: Alle Hooks müssen VOR diesem Return stehen!
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(initialData ? { ...formData, id: initialData.id } : formData);
+    
+    const finalData = {
+      ...formData,
+      category: isCreatingNewCategory ? newCategoryInput.trim() || 'Allgemein' : formData.category,
+    };
+
+    onSave(initialData ? { ...finalData, id: initialData.id } : finalData);
     onClose();
   };
 
-  // Overlay-Klick-Logik (Mousedown & Mouseup)
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     mouseDownTargetRef.current = e.target;
   };
 
   const handleMouseUp = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (
-      mouseDownTargetRef.current === e.currentTarget &&
-      e.target === e.currentTarget
-    ) {
+    if (mouseDownTargetRef.current === e.currentTarget && e.target === e.currentTarget) {
       onClose();
     }
     mouseDownTargetRef.current = null;
   };
 
   return (
-    <div
-      className={styles.overlay}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-    >
+    <div className={styles.overlay} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
       <div className={styles.modal} onMouseDown={(e) => e.stopPropagation()}>
         <div className={styles.header}>
           <h2 className={styles.title}>
@@ -143,15 +143,43 @@ export function ItemModal({ isOpen, onClose, initialData, onSave }: ItemModalPro
               />
             </div>
 
+            {/* Kategorie Auswahl ohne störenden Button */}
             <div className={styles.field}>
               <label className={styles.label}>Kategorie</label>
-              <input
-                required
-                type="text"
-                className={styles.input}
-                value={formData.category}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              />
+              
+              {!isCreatingNewCategory ? (
+                <select
+                  className={styles.input}
+                  value={formData.category}
+                  onChange={(e) => {
+                    if (e.target.value === '__NEW__') {
+                      setIsCreatingNewCategory(true);
+                      setNewCategoryInput('');
+                    } else {
+                      setFormData({ ...formData, category: e.target.value });
+                    }
+                  }}
+                >
+                  {existingCategories.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                  <option value="__NEW__" style={{ fontWeight: 'bold', color: '#3b82f6' }}>
+                    + Neue Kategorie...
+                  </option>
+                </select>
+              ) : (
+                <input
+                  required
+                  type="text"
+                  className={styles.input}
+                  placeholder="Neue Kategorie eingeben..."
+                  value={newCategoryInput}
+                  onChange={(e) => setNewCategoryInput(e.target.value)}
+                  autoFocus
+                />
+              )}
             </div>
           </div>
 
@@ -217,7 +245,6 @@ export function ItemModal({ isOpen, onClose, initialData, onSave }: ItemModalPro
             </div>
           </div>
 
-          {/* Zusätzliches Textfeld für Notizen */}
           <div className={styles.field}>
             <label className={styles.label}>Zusätzlicher Text / Notizen</label>
             <textarea

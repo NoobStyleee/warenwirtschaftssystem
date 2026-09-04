@@ -19,6 +19,9 @@ export default function Home() {
   const [showRestockModal, setShowRestockModal] = useState(false);
 
   const criticalItems = items.filter((item: any) => item.stock <= item.minStock);
+  const existingCategories = Array.from(
+  new Set(items.map((item: any) => item.category).filter(Boolean))
+) as string[];
 
   const fetchItems = async () => {
     try {
@@ -125,6 +128,7 @@ export default function Home() {
         initialData={selectedItem}
         onClose={() => setIsModalOpen(false)}
         onSave={handleSaveItem}
+        existingCategories={existingCategories}
       />
 
       {/* Sauberes Restock Modal als eigenständige Komponente */}
