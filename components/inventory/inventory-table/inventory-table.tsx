@@ -5,6 +5,7 @@ import { Plus, Trash2, Pencil } from 'lucide-react';
 import { InventoryItem } from '../../../types/inventory';
 import { Button } from '../../ui/button/button';
 import { formatCurrency } from '../../../lib/utils';
+import { useToast } from '../../ui/toast-context/toast-context';
 import styles from './inventory-table.module.css';
 
 interface InventoryTableProps {
@@ -23,6 +24,7 @@ export function InventoryTable({
   onOpenAddModal,
 }: InventoryTableProps) {
   const [searchTerm, setSearchTerm] = useState('');
+  const { showToast } = useToast();
 
   // Artikel anhand von Name, SKU, Lagerort oder Kategorie filtern
   const filteredItems = items.filter((item) => {
@@ -34,6 +36,20 @@ export function InventoryTable({
 
     return nameMatch || skuMatch || locationMatch || categoryMatch;
   });
+
+  const handleStockChange = (id: string, newStock: number, itemName: string) => {
+    onUpdateStock(id, newStock);
+    showToast(`Bestand für "${itemName}" auf ${newStock} Stk. aktualisiert.`, 'success');
+  };
+
+  const handleDelete = (id: string, itemName: string) => {
+    onDeleteItem(id);
+    showToast(`Artikel "${itemName}" wurde gelöscht.`, 'error');
+  };
+
+  const handleOpenAdd = () => {
+    onOpenAddModal();
+  };
 
   return (
     <div className={styles.container}>
@@ -47,7 +63,7 @@ export function InventoryTable({
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <Button variant="primary" onClick={onOpenAddModal}>
+        <Button variant="primary" onClick={handleOpenAdd}>
           <Plus className="h-4 w-4 mr-2" /> Artikel Hinzufügen
         </Button>
       </div>
@@ -72,7 +88,10 @@ export function InventoryTable({
                 <td style={{ fontWeight: 600 }}>{item.sku}</td>
                 <td>
                   <button
-                    onClick={() => onEditItem(item)}
+                    onClick={() => {
+                      onEditItem(item);
+                      showToast(`Bearbeite Artikel: ${item.name}`, 'info');
+                    }}
                     style={{
                       background: 'none',
                       border: 'none',
@@ -91,7 +110,7 @@ export function InventoryTable({
                   <div className={styles.stockControl}>
                     <button
                       className={styles.stockBtn}
-                      onClick={() => onUpdateStock(item.id, Math.max(0, item.stock - 1))}
+                      onClick={() => handleStockChange(item.id, Math.max(0, item.stock - 1), item.name)}
                     >
                       -
                     </button>
@@ -102,7 +121,13 @@ export function InventoryTable({
                       value={item.stock}
                       onChange={(e) => {
                         const val = parseInt(e.target.value, 10);
-                        onUpdateStock(item.id, isNaN(val) ? 0 : Math.max(0, val));
+                        const newStock = isNaN(val) ? 0 : Math.max(0, val);
+                        onUpdateStock(item.id, newStock);
+                      }}
+                      onBlur={(e) => {
+                        const val = parseInt(e.target.value, 10);
+                        const newStock = isNaN(val) ? 0 : Math.max(0, val);
+                        showToast(`Bestand für "${item.name}" gespeichert (${newStock} Stk.).`, 'success');
                       }}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') {
@@ -112,7 +137,7 @@ export function InventoryTable({
                     />
                     <button
                       className={styles.stockBtn}
-                      onClick={() => onUpdateStock(item.id, item.stock + 1)}
+                      onClick={() => handleStockChange(item.id, item.stock + 1, item.name)}
                     >
                       +
                     </button>
@@ -124,14 +149,17 @@ export function InventoryTable({
                 <td>
                   <div style={{ display: 'flex', gap: '0.5rem' }}>
                     <button
-                      onClick={() => onEditItem(item)}
+                      onClick={() => {
+                        onEditItem(item);
+                        showToast(`Bearbeite Artikel: ${item.name}`, 'info');
+                      }}
                       style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#475569' }}
                       title="Bearbeiten"
                     >
                       <Pencil className="h-4 w-4" />
                     </button>
                     <button
-                      onClick={() => onDeleteItem(item.id)}
+                      onClick={() => handleDelete(item.id, item.name)}
                       style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ef4444' }}
                       title="Löschen"
                     >

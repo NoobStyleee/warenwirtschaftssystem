@@ -5,6 +5,7 @@ import { FileSpreadsheet, Download, FileText, PlusCircle, Printer, Trash2, Chevr
 import * as XLSX from 'xlsx';
 import { InventoryItem } from '../../types/inventory';
 import { Button } from '../ui/button/button';
+import { useToast } from '../ui/toast-context/toast-context';
 import styles from './reports-view.module.css';
 
 interface ReportHistoryItem {
@@ -30,6 +31,7 @@ export function ReportsView({ items }: ReportsViewProps) {
   const [history, setHistory] = useState<ReportHistoryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const { showToast } = useToast();
 
   const suppliers = Array.from(new Set(items.map((i) => i.supplier))).filter(Boolean) as string[];
 
@@ -254,10 +256,13 @@ export function ReportsView({ items }: ReportsViewProps) {
 
     if (format === 'PDF') {
       printPDF(typeLabel, selectedSupplier === 'ALL' ? 'Alle Lieferanten' : selectedSupplier, selectedItems);
+      showToast(`PDF-Druckansicht für "${typeLabel}" geöffnet.`, 'success');
     } else if (format === 'Excel') {
       generateExcel(selectedItems, fileName, selectedSupplier);
+      showToast(`Excel-Bericht "${fileName}" erfolgreich generiert.`, 'success');
     } else {
       generateCSV(selectedItems, fileName);
+      showToast(`CSV-Bericht "${fileName}" erfolgreich generiert.`, 'success');
     }
 
     const newEntry: ReportHistoryItem = {
@@ -290,27 +295,33 @@ export function ReportsView({ items }: ReportsViewProps) {
     setCurrentPage(1);
   };
 
-  const handleDeleteReport = async (id: string) => {
+  const handleDeleteReport = async (id: string, name: string) => {
     try {
       const res = await fetch(`/api/reports?id=${id}`, { method: 'DELETE' });
       if (res.ok) {
         const updated = await res.json();
         setHistory(updated);
+        showToast(`Bericht "${name}" wurde gelöscht.`, 'error');
       } else {
         setHistory(history.filter((item) => item.id !== id));
+        showToast(`Bericht "${name}" wurde gelöscht.`, 'error');
       }
     } catch (err) {
       setHistory(history.filter((item) => item.id !== id));
+      showToast(`Bericht "${name}" wurde gelöscht.`, 'error');
     }
   };
 
   const handleReDownload = (item: ReportHistoryItem) => {
     if (item.format === 'PDF') {
       printPDF(item.type, item.supplierFilter, item.rawItems);
+      showToast(`Druckansicht für "${item.name}" geöffnet.`, 'info');
     } else if (item.format === 'Excel') {
       generateExcel(item.rawItems, item.name, selectedSupplier);
+      showToast(`Excel-Datei "${item.name}" erneut heruntergeladen.`, 'success');
     } else {
       generateCSV(item.rawItems, item.name);
+      showToast(`CSV-Datei "${item.name}" erneut heruntergeladen.`, 'success');
     }
   };
 
@@ -440,7 +451,7 @@ export function ReportsView({ items }: ReportsViewProps) {
                       <button
                         className={styles.downloadBtn}
                         style={{ color: '#ef4444', borderColor: '#fca5a5' }}
-                        onClick={() => handleDeleteReport(item.id)}
+                        onClick={() => handleDeleteReport(item.id, item.name)}
                         title="Bericht aus Historie löschen"
                       >
                         <Trash2 className="h-4 w-4" />

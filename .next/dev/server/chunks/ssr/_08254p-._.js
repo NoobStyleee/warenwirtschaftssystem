@@ -1118,6 +1118,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$pencil$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Pencil$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/pencil.mjs [app-ssr] (ecmascript) <export default as Pencil>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/ui/button/button.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/utils.ts [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$toast$2d$context$2f$toast$2d$context$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/ui/toast-context/toast-context.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__ = __turbopack_context__.i("[project]/components/inventory/inventory-table/inventory-table.module.css [app-ssr] (css module)");
 'use client';
 ;
@@ -1126,8 +1127,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$i
 ;
 ;
 ;
+;
 function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpenAddModal }) {
     const [searchTerm, setSearchTerm] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
+    const { showToast } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$toast$2d$context$2f$toast$2d$context$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useToast"])();
     // Artikel anhand von Name, SKU, Lagerort oder Kategorie filtern
     const filteredItems = items.filter((item)=>{
         const term = searchTerm.toLowerCase();
@@ -1137,6 +1140,17 @@ function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpen
         const categoryMatch = item.category?.toLowerCase().includes(term);
         return nameMatch || skuMatch || locationMatch || categoryMatch;
     });
+    const handleStockChange = (id, newStock, itemName)=>{
+        onUpdateStock(id, newStock);
+        showToast(`Bestand für "${itemName}" auf ${newStock} Stk. aktualisiert.`, 'success');
+    };
+    const handleDelete = (id, itemName)=>{
+        onDeleteItem(id);
+        showToast(`Artikel "${itemName}" wurde gelöscht.`, 'error');
+    };
+    const handleOpenAdd = ()=>{
+        onOpenAddModal();
+    };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].container,
         children: [
@@ -1153,36 +1167,36 @@ function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpen
                             onChange: (e)=>setSearchTerm(e.target.value)
                         }, void 0, false, {
                             fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                            lineNumber: 42,
+                            lineNumber: 58,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                        lineNumber: 41,
+                        lineNumber: 57,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
                         variant: "primary",
-                        onClick: onOpenAddModal,
+                        onClick: handleOpenAdd,
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__["Plus"], {
                                 className: "h-4 w-4 mr-2"
                             }, void 0, false, {
                                 fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                lineNumber: 51,
+                                lineNumber: 67,
                                 columnNumber: 11
                             }, this),
                             " Artikel Hinzufügen"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                        lineNumber: 50,
+                        lineNumber: 66,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                lineNumber: 40,
+                lineNumber: 56,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("table", {
@@ -1195,67 +1209,67 @@ function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpen
                                     children: "SKU / Artikel-Nr."
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                    lineNumber: 58,
+                                    lineNumber: 74,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                     children: "Name"
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                    lineNumber: 59,
+                                    lineNumber: 75,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                     children: "Kategorie"
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                    lineNumber: 60,
+                                    lineNumber: 76,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                     children: "Bestand"
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                    lineNumber: 61,
+                                    lineNumber: 77,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                     children: "Mindestbestand"
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                    lineNumber: 62,
+                                    lineNumber: 78,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                     children: "Preis (€)"
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                    lineNumber: 63,
+                                    lineNumber: 79,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                     children: "Lagerort"
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                    lineNumber: 64,
+                                    lineNumber: 80,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                     children: "Aktionen"
                                 }, void 0, false, {
                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                    lineNumber: 65,
+                                    lineNumber: 81,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                            lineNumber: 57,
+                            lineNumber: 73,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                        lineNumber: 56,
+                        lineNumber: 72,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -1268,12 +1282,15 @@ function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpen
                                         children: item.sku
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                        lineNumber: 72,
+                                        lineNumber: 88,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                            onClick: ()=>onEditItem(item),
+                                            onClick: ()=>{
+                                                onEditItem(item);
+                                                showToast(`Bearbeite Artikel: ${item.name}`, 'info');
+                                            },
                                             style: {
                                                 background: 'none',
                                                 border: 'none',
@@ -1286,19 +1303,19 @@ function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpen
                                             children: item.name
                                         }, void 0, false, {
                                             fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                            lineNumber: 74,
+                                            lineNumber: 90,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                        lineNumber: 73,
+                                        lineNumber: 89,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                         children: item.category
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                        lineNumber: 89,
+                                        lineNumber: 108,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1307,11 +1324,11 @@ function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpen
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                     className: __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].stockBtn,
-                                                    onClick: ()=>onUpdateStock(item.id, Math.max(0, item.stock - 1)),
+                                                    onClick: ()=>handleStockChange(item.id, Math.max(0, item.stock - 1), item.name),
                                                     children: "-"
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                                    lineNumber: 92,
+                                                    lineNumber: 111,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1321,7 +1338,13 @@ function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpen
                                                     value: item.stock,
                                                     onChange: (e)=>{
                                                         const val = parseInt(e.target.value, 10);
-                                                        onUpdateStock(item.id, isNaN(val) ? 0 : Math.max(0, val));
+                                                        const newStock = isNaN(val) ? 0 : Math.max(0, val);
+                                                        onUpdateStock(item.id, newStock);
+                                                    },
+                                                    onBlur: (e)=>{
+                                                        const val = parseInt(e.target.value, 10);
+                                                        const newStock = isNaN(val) ? 0 : Math.max(0, val);
+                                                        showToast(`Bestand für "${item.name}" gespeichert (${newStock} Stk.).`, 'success');
                                                     },
                                                     onKeyDown: (e)=>{
                                                         if (e.key === 'Enter') {
@@ -1330,48 +1353,48 @@ function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpen
                                                     }
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                                    lineNumber: 98,
+                                                    lineNumber: 117,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                     className: __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$inventory$2f$inventory$2d$table$2f$inventory$2d$table$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].stockBtn,
-                                                    onClick: ()=>onUpdateStock(item.id, item.stock + 1),
+                                                    onClick: ()=>handleStockChange(item.id, item.stock + 1, item.name),
                                                     children: "+"
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                                    lineNumber: 113,
+                                                    lineNumber: 138,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                            lineNumber: 91,
+                                            lineNumber: 110,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                        lineNumber: 90,
+                                        lineNumber: 109,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                         children: item.minStock
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                        lineNumber: 121,
+                                        lineNumber: 146,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                         children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(item.price)
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                        lineNumber: 122,
+                                        lineNumber: 147,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                         children: item.location || '-'
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                        lineNumber: 123,
+                                        lineNumber: 148,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1382,7 +1405,10 @@ function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpen
                                             },
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                    onClick: ()=>onEditItem(item),
+                                                    onClick: ()=>{
+                                                        onEditItem(item);
+                                                        showToast(`Bearbeite Artikel: ${item.name}`, 'info');
+                                                    },
                                                     style: {
                                                         background: 'none',
                                                         border: 'none',
@@ -1394,16 +1420,16 @@ function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpen
                                                         className: "h-4 w-4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                                        lineNumber: 131,
+                                                        lineNumber: 159,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                                    lineNumber: 126,
+                                                    lineNumber: 151,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                    onClick: ()=>onDeleteItem(item.id),
+                                                    onClick: ()=>handleDelete(item.id, item.name),
                                                     style: {
                                                         background: 'none',
                                                         border: 'none',
@@ -1415,29 +1441,29 @@ function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpen
                                                         className: "h-4 w-4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                                        lineNumber: 138,
+                                                        lineNumber: 166,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                                    lineNumber: 133,
+                                                    lineNumber: 161,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                            lineNumber: 125,
+                                            lineNumber: 150,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                        lineNumber: 124,
+                                        lineNumber: 149,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, item.id, true, {
                                 fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                lineNumber: 71,
+                                lineNumber: 87,
                                 columnNumber: 15
                             }, this)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1450,29 +1476,29 @@ function InventoryTable({ items, onUpdateStock, onDeleteItem, onEditItem, onOpen
                                 children: "Keine Artikel gefunden."
                             }, void 0, false, {
                                 fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                                lineNumber: 146,
+                                lineNumber: 174,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                            lineNumber: 145,
+                            lineNumber: 173,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                        lineNumber: 68,
+                        lineNumber: 84,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-                lineNumber: 55,
+                lineNumber: 71,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/inventory/inventory-table/inventory-table.tsx",
-        lineNumber: 39,
+        lineNumber: 55,
         columnNumber: 5
     }, this);
 }
@@ -2905,8 +2931,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$right$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronRight$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/chevron-right.mjs [app-ssr] (ecmascript) <export default as ChevronRight>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$xlsx$2f$xlsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/xlsx/xlsx.mjs [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/ui/button/button.tsx [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$toast$2d$context$2f$toast$2d$context$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/ui/toast-context/toast-context.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$reports$2f$reports$2d$view$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__ = __turbopack_context__.i("[project]/components/reports/reports-view.module.css [app-ssr] (css module)");
 'use client';
+;
 ;
 ;
 ;
@@ -2921,6 +2949,7 @@ function ReportsView({ items }) {
     const [history, setHistory] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(true);
     const [currentPage, setCurrentPage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(1);
+    const { showToast } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$toast$2d$context$2f$toast$2d$context$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useToast"])();
     const suppliers = Array.from(new Set(items.map((i)=>i.supplier))).filter(Boolean);
     // 1. Berichte vom Server laden
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
@@ -3142,10 +3171,13 @@ function ReportsView({ items }) {
         const fileName = `${typeLabel}_${supLabel}_${timestamp}.${ext}`;
         if (format === 'PDF') {
             printPDF(typeLabel, selectedSupplier === 'ALL' ? 'Alle Lieferanten' : selectedSupplier, selectedItems);
+            showToast(`PDF-Druckansicht für "${typeLabel}" geöffnet.`, 'success');
         } else if (format === 'Excel') {
             generateExcel(selectedItems, fileName, selectedSupplier);
+            showToast(`Excel-Bericht "${fileName}" erfolgreich generiert.`, 'success');
         } else {
             generateCSV(selectedItems, fileName);
+            showToast(`CSV-Bericht "${fileName}" erfolgreich generiert.`, 'success');
         }
         const newEntry = {
             id: Date.now().toString(),
@@ -3186,7 +3218,7 @@ function ReportsView({ items }) {
         }
         setCurrentPage(1);
     };
-    const handleDeleteReport = async (id)=>{
+    const handleDeleteReport = async (id, name)=>{
         try {
             const res = await fetch(`/api/reports?id=${id}`, {
                 method: 'DELETE'
@@ -3194,20 +3226,26 @@ function ReportsView({ items }) {
             if (res.ok) {
                 const updated = await res.json();
                 setHistory(updated);
+                showToast(`Bericht "${name}" wurde gelöscht.`, 'error');
             } else {
                 setHistory(history.filter((item)=>item.id !== id));
+                showToast(`Bericht "${name}" wurde gelöscht.`, 'error');
             }
         } catch (err) {
             setHistory(history.filter((item)=>item.id !== id));
+            showToast(`Bericht "${name}" wurde gelöscht.`, 'error');
         }
     };
     const handleReDownload = (item)=>{
         if (item.format === 'PDF') {
             printPDF(item.type, item.supplierFilter, item.rawItems);
+            showToast(`Druckansicht für "${item.name}" geöffnet.`, 'info');
         } else if (item.format === 'Excel') {
             generateExcel(item.rawItems, item.name, selectedSupplier);
+            showToast(`Excel-Datei "${item.name}" erneut heruntergeladen.`, 'success');
         } else {
             generateCSV(item.rawItems, item.name);
+            showToast(`CSV-Datei "${item.name}" erneut heruntergeladen.`, 'success');
         }
     };
     // Pagination Berechnungen
@@ -3222,7 +3260,7 @@ function ReportsView({ items }) {
                 children: "Berichte & Export"
             }, void 0, false, {
                 fileName: "[project]/components/reports/reports-view.tsx",
-                lineNumber: 324,
+                lineNumber: 335,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3235,7 +3273,7 @@ function ReportsView({ items }) {
                                 className: "h-6 w-6 text-blue-600"
                             }, void 0, false, {
                                 fileName: "[project]/components/reports/reports-view.tsx",
-                                lineNumber: 328,
+                                lineNumber: 339,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -3243,13 +3281,13 @@ function ReportsView({ items }) {
                                 children: "Neuen Bericht Erstellen"
                             }, void 0, false, {
                                 fileName: "[project]/components/reports/reports-view.tsx",
-                                lineNumber: 329,
+                                lineNumber: 340,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/reports/reports-view.tsx",
-                        lineNumber: 327,
+                        lineNumber: 338,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3263,7 +3301,7 @@ function ReportsView({ items }) {
                                         children: "Berichtstyp"
                                     }, void 0, false, {
                                         fileName: "[project]/components/reports/reports-view.tsx",
-                                        lineNumber: 334,
+                                        lineNumber: 345,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -3276,7 +3314,7 @@ function ReportsView({ items }) {
                                                 children: "Gesamter Lagerbestand"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/reports/reports-view.tsx",
-                                                lineNumber: 336,
+                                                lineNumber: 347,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -3284,7 +3322,7 @@ function ReportsView({ items }) {
                                                 children: "Kritischer Bestand / Nachbestellungen"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/reports/reports-view.tsx",
-                                                lineNumber: 337,
+                                                lineNumber: 348,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -3292,19 +3330,19 @@ function ReportsView({ items }) {
                                                 children: "Lagerwert-Analyse"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/reports/reports-view.tsx",
-                                                lineNumber: 338,
+                                                lineNumber: 349,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/reports/reports-view.tsx",
-                                        lineNumber: 335,
+                                        lineNumber: 346,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/reports/reports-view.tsx",
-                                lineNumber: 333,
+                                lineNumber: 344,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3315,7 +3353,7 @@ function ReportsView({ items }) {
                                         children: "Lieferanten-Filter (für Auswahl)"
                                     }, void 0, false, {
                                         fileName: "[project]/components/reports/reports-view.tsx",
-                                        lineNumber: 343,
+                                        lineNumber: 354,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -3328,7 +3366,7 @@ function ReportsView({ items }) {
                                                 children: "Alle Lieferanten (Multi-Tab Excel)"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/reports/reports-view.tsx",
-                                                lineNumber: 345,
+                                                lineNumber: 356,
                                                 columnNumber: 15
                                             }, this),
                                             suppliers.map((sup)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -3336,19 +3374,19 @@ function ReportsView({ items }) {
                                                     children: sup
                                                 }, sup, false, {
                                                     fileName: "[project]/components/reports/reports-view.tsx",
-                                                    lineNumber: 347,
+                                                    lineNumber: 358,
                                                     columnNumber: 17
                                                 }, this))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/reports/reports-view.tsx",
-                                        lineNumber: 344,
+                                        lineNumber: 355,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/reports/reports-view.tsx",
-                                lineNumber: 342,
+                                lineNumber: 353,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3359,7 +3397,7 @@ function ReportsView({ items }) {
                                         children: "Exportformat"
                                     }, void 0, false, {
                                         fileName: "[project]/components/reports/reports-view.tsx",
-                                        lineNumber: 355,
+                                        lineNumber: 366,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -3372,7 +3410,7 @@ function ReportsView({ items }) {
                                                 children: "Excel Arbeitsmappe (.xlsx)"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/reports/reports-view.tsx",
-                                                lineNumber: 357,
+                                                lineNumber: 368,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -3380,7 +3418,7 @@ function ReportsView({ items }) {
                                                 children: "CSV Datei (.csv)"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/reports/reports-view.tsx",
-                                                lineNumber: 358,
+                                                lineNumber: 369,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -3388,25 +3426,25 @@ function ReportsView({ items }) {
                                                 children: "PDF Druckansicht (.pdf)"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/reports/reports-view.tsx",
-                                                lineNumber: 359,
+                                                lineNumber: 370,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/reports/reports-view.tsx",
-                                        lineNumber: 356,
+                                        lineNumber: 367,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/reports/reports-view.tsx",
-                                lineNumber: 354,
+                                lineNumber: 365,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/reports/reports-view.tsx",
-                        lineNumber: 332,
+                        lineNumber: 343,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -3418,14 +3456,14 @@ function ReportsView({ items }) {
                                     className: "h-4 w-4 mr-2"
                                 }, void 0, false, {
                                     fileName: "[project]/components/reports/reports-view.tsx",
-                                    lineNumber: 367,
+                                    lineNumber: 378,
                                     columnNumber: 15
                                 }, this),
                                 " PDF Öffnen & Drucken"
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/reports/reports-view.tsx",
-                            lineNumber: 366,
+                            lineNumber: 377,
                             columnNumber: 13
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
                             children: [
@@ -3433,25 +3471,25 @@ function ReportsView({ items }) {
                                     className: "h-4 w-4 mr-2"
                                 }, void 0, false, {
                                     fileName: "[project]/components/reports/reports-view.tsx",
-                                    lineNumber: 371,
+                                    lineNumber: 382,
                                     columnNumber: 15
                                 }, this),
                                 " Bericht Generieren & Herunterladen"
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/reports/reports-view.tsx",
-                            lineNumber: 370,
+                            lineNumber: 381,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/reports/reports-view.tsx",
-                        lineNumber: 364,
+                        lineNumber: 375,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/reports/reports-view.tsx",
-                lineNumber: 326,
+                lineNumber: 337,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3474,12 +3512,12 @@ function ReportsView({ items }) {
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/reports/reports-view.tsx",
-                    lineNumber: 378,
+                    lineNumber: 389,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/components/reports/reports-view.tsx",
-                lineNumber: 377,
+                lineNumber: 388,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3494,53 +3532,53 @@ function ReportsView({ items }) {
                                         children: "Dateiname"
                                     }, void 0, false, {
                                         fileName: "[project]/components/reports/reports-view.tsx",
-                                        lineNumber: 387,
+                                        lineNumber: 398,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                         children: "Typ"
                                     }, void 0, false, {
                                         fileName: "[project]/components/reports/reports-view.tsx",
-                                        lineNumber: 388,
+                                        lineNumber: 399,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                         children: "Lieferanten-Filter"
                                     }, void 0, false, {
                                         fileName: "[project]/components/reports/reports-view.tsx",
-                                        lineNumber: 389,
+                                        lineNumber: 400,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                         children: "Format"
                                     }, void 0, false, {
                                         fileName: "[project]/components/reports/reports-view.tsx",
-                                        lineNumber: 390,
+                                        lineNumber: 401,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                         children: "Erstellt am"
                                     }, void 0, false, {
                                         fileName: "[project]/components/reports/reports-view.tsx",
-                                        lineNumber: 391,
+                                        lineNumber: 402,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                         children: "Aktionen"
                                     }, void 0, false, {
                                         fileName: "[project]/components/reports/reports-view.tsx",
-                                        lineNumber: 392,
+                                        lineNumber: 403,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/reports/reports-view.tsx",
-                                lineNumber: 386,
+                                lineNumber: 397,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/components/reports/reports-view.tsx",
-                            lineNumber: 385,
+                            lineNumber: 396,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -3554,12 +3592,12 @@ function ReportsView({ items }) {
                                     children: "Lade Historie..."
                                 }, void 0, false, {
                                     fileName: "[project]/components/reports/reports-view.tsx",
-                                    lineNumber: 398,
+                                    lineNumber: 409,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/components/reports/reports-view.tsx",
-                                lineNumber: 397,
+                                lineNumber: 408,
                                 columnNumber: 15
                             }, this) : currentItems.length > 0 ? currentItems.map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                     children: [
@@ -3578,33 +3616,33 @@ function ReportsView({ items }) {
                                                         className: "h-4 w-4 text-slate-400"
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/reports/reports-view.tsx",
-                                                        lineNumber: 407,
+                                                        lineNumber: 418,
                                                         columnNumber: 23
                                                     }, this),
                                                     item.name
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/components/reports/reports-view.tsx",
-                                                lineNumber: 406,
+                                                lineNumber: 417,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/components/reports/reports-view.tsx",
-                                            lineNumber: 405,
+                                            lineNumber: 416,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                             children: item.type
                                         }, void 0, false, {
                                             fileName: "[project]/components/reports/reports-view.tsx",
-                                            lineNumber: 411,
+                                            lineNumber: 422,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                             children: item.supplierFilter
                                         }, void 0, false, {
                                             fileName: "[project]/components/reports/reports-view.tsx",
-                                            lineNumber: 412,
+                                            lineNumber: 423,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3613,19 +3651,19 @@ function ReportsView({ items }) {
                                                 children: item.format
                                             }, void 0, false, {
                                                 fileName: "[project]/components/reports/reports-view.tsx",
-                                                lineNumber: 414,
+                                                lineNumber: 425,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/components/reports/reports-view.tsx",
-                                            lineNumber: 413,
+                                            lineNumber: 424,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                             children: item.createdDate
                                         }, void 0, false, {
                                             fileName: "[project]/components/reports/reports-view.tsx",
-                                            lineNumber: 426,
+                                            lineNumber: 437,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3644,14 +3682,14 @@ function ReportsView({ items }) {
                                                                     className: "h-4 w-4"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/components/reports/reports-view.tsx",
-                                                                    lineNumber: 432,
+                                                                    lineNumber: 443,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 " Drucken"
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/components/reports/reports-view.tsx",
-                                                            lineNumber: 431,
+                                                            lineNumber: 442,
                                                             columnNumber: 27
                                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
                                                             children: [
@@ -3659,19 +3697,19 @@ function ReportsView({ items }) {
                                                                     className: "h-4 w-4"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/components/reports/reports-view.tsx",
-                                                                    lineNumber: 436,
+                                                                    lineNumber: 447,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 " Download"
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/components/reports/reports-view.tsx",
-                                                            lineNumber: 435,
+                                                            lineNumber: 446,
                                                             columnNumber: 27
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/reports/reports-view.tsx",
-                                                        lineNumber: 429,
+                                                        lineNumber: 440,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3680,35 +3718,35 @@ function ReportsView({ items }) {
                                                             color: '#ef4444',
                                                             borderColor: '#fca5a5'
                                                         },
-                                                        onClick: ()=>handleDeleteReport(item.id),
+                                                        onClick: ()=>handleDeleteReport(item.id, item.name),
                                                         title: "Bericht aus Historie löschen",
                                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trash$2d$2$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Trash2$3e$__["Trash2"], {
                                                             className: "h-4 w-4"
                                                         }, void 0, false, {
                                                             fileName: "[project]/components/reports/reports-view.tsx",
-                                                            lineNumber: 446,
+                                                            lineNumber: 457,
                                                             columnNumber: 25
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/reports/reports-view.tsx",
-                                                        lineNumber: 440,
+                                                        lineNumber: 451,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/components/reports/reports-view.tsx",
-                                                lineNumber: 428,
+                                                lineNumber: 439,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/components/reports/reports-view.tsx",
-                                            lineNumber: 427,
+                                            lineNumber: 438,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, item.id, true, {
                                     fileName: "[project]/components/reports/reports-view.tsx",
-                                    lineNumber: 404,
+                                    lineNumber: 415,
                                     columnNumber: 17
                                 }, this)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3721,28 +3759,28 @@ function ReportsView({ items }) {
                                     children: "Noch keine Berichte generiert. Wähle oben Einstellungen aus und klicke auf Generieren."
                                 }, void 0, false, {
                                     fileName: "[project]/components/reports/reports-view.tsx",
-                                    lineNumber: 454,
+                                    lineNumber: 465,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/components/reports/reports-view.tsx",
-                                lineNumber: 453,
+                                lineNumber: 464,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/components/reports/reports-view.tsx",
-                            lineNumber: 395,
+                            lineNumber: 406,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/reports/reports-view.tsx",
-                    lineNumber: 384,
+                    lineNumber: 395,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/components/reports/reports-view.tsx",
-                lineNumber: 383,
+                lineNumber: 394,
                 columnNumber: 7
             }, this),
             totalPages > 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3766,14 +3804,14 @@ function ReportsView({ items }) {
                                 className: "h-4 w-4"
                             }, void 0, false, {
                                 fileName: "[project]/components/reports/reports-view.tsx",
-                                lineNumber: 472,
+                                lineNumber: 483,
                                 columnNumber: 13
                             }, this),
                             " Zurück"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/reports/reports-view.tsx",
-                        lineNumber: 466,
+                        lineNumber: 477,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3789,7 +3827,7 @@ function ReportsView({ items }) {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/reports/reports-view.tsx",
-                        lineNumber: 474,
+                        lineNumber: 485,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3805,25 +3843,25 @@ function ReportsView({ items }) {
                                 className: "h-4 w-4"
                             }, void 0, false, {
                                 fileName: "[project]/components/reports/reports-view.tsx",
-                                lineNumber: 483,
+                                lineNumber: 494,
                                 columnNumber: 20
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/reports/reports-view.tsx",
-                        lineNumber: 477,
+                        lineNumber: 488,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/reports/reports-view.tsx",
-                lineNumber: 465,
+                lineNumber: 476,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/reports/reports-view.tsx",
-        lineNumber: 323,
+        lineNumber: 334,
         columnNumber: 5
     }, this);
 }
